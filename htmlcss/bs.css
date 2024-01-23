@@ -1,0 +1,46 @@
+/* body::before {
+  content: 'BBB';
+} */
+
+@media (max-width: 576px) {
+  body::before {
+    content: 'XS';
+  }
+}
+
+@media (min-width: 576px) {
+  body::before {
+    content: 'SM';
+  }
+}
+
+@media (min-width: 768px) {
+  body::before {
+    content: 'MD';
+  }
+}
+
+@media (min-width: 992px) {
+  body::before {
+    content: 'LG';
+  }
+}
+
+@media (min-width: 1200px) {
+  body::before {
+    content: 'XL';
+  }
+}
+
+@media (min-width: 1400px) {
+  body::before {
+    content: 'XXL';
+  }
+}
+
+.box {
+  background-color: pink;
+  border: 1px solid red;
+  min-height: 2rem;
+  font-size: 2rem;
+}

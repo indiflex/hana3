@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jade HTML</title>
+  <link rel="stylesheet" href="a.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </link>
+</head>
+
+<body>
+  <div class="container-md">
+    <h1 class="text-center">My First HTML Page</h1>
+    <p class="text-center">h1 - p</p>
+    <div onclick="ff()" class="bg-red" aria-hidden="true">
+      <img
+        src="https://images.unsplash.com/photo-1705418511673-786fc03b913c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        width="200" height="300" alt="펭귄" />
+    </div>
+    <p>PPPPPPPPPP</p>
+    <ul style="list-style: none; color: blue;border: 1px solid red;">
+      <li>aaa</li>
+      <li>bbb <p>li-p</p>
+      </li>
+      <li>ccc</li>
+    </ul>
+    <input type="text" id="num" />
+
+    <script>
+      function ff() {
+        var ele = document.querySelector('h1~p')
+        console.log('click!!', num, ele)
+      }
+    </script>
+  </div>
+</body>
+
+</html>
