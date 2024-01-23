@@ -12,9 +12,131 @@
 
 <body>
   <div class="container my-3">
-    <img src="https://placehold.co/600x400" alt="600x400">
+
+    <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Launch demo modal
+    </button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card w-50 mb-5">
+      <div class="card-header"><button type="button" class="btn-close float-end" aria-label="Close"></button></div>
+      <img src="https://placehold.co/600x400" class="card-img-top" alt="600x400" />
+
+      <div class="card-body">
+        <h5 class="card-title text-primary">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+          content.
+        </p>
+        <a href="#" class="btn btn-primary float-end">Go somewhere</a>
+      </div>
+      <div class="card-footer">Footer</div>
+    </div>
+
+    <form>
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary">Primary</button>
+        <a href="#" type="button" class="btn btn-primary">Primary</a>
+      </div>
+      <div class="mb-3">
+        <span class="badge text-bg-warning">Primary</span>
+      </div>
+      <div class="mb-3">
+        <form class="form-floating">
+          <input type="email" class="form-control is-invalid" id="floatingInputInvalid" placeholder="name@example.com"
+            value="test@example.com">
+          <label for="floatingInputInvalid">Invalid input</label>
+        </form>
+      </div>
+      <div class="mb-3">
+        <div class="input-group flex-nowrap">
+          <span class="input-group-text" id="addon-wrapping">@</span>
+          <input type="text" class="form-control" placeholder="Username" aria-label="Username" required
+            aria-describedby="addon-wrapping">
+          <span class="input-group-text" id="addon-wrapping">@</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control-plaintext" value="your@email.com" id="exampleInputEmail1"
+          aria-describedby="emailHelp" placeholder="Email..." readonly>
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Default file input example</label>
+        <input class="form-control" type="file" id="formFile">
+      </div>
+      <div class="mb-3">
+        <label for="exampleColorInput" class="form-label">Color picker</label>
+        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c"
+          title="Choose your color">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <table class="table table-sm table-borderedx border-primaryx table-borderless table-hover">
+      <thead class="table-danger">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr class="table-active">
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td colspan="2">Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+    <img src="https://placehold.co/600x400" class="img-fluid rounded rounded-start-circle opacity-25" alt="600x400" />
+    <img src="https://placehold.co/600x400" class="img-thumbnail" alt="600x400" />
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      const modal = new bootstrap.Modal('#exampleModal', { keyboard: false });
+      console.log(modal)
+    });
+  </script>
 </body>
 
-</html>
+</html> opacity-25
