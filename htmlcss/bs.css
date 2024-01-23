@@ -1,39 +1,39 @@
-/* body::before {
-  content: 'BBB';
-} */
+body {
+  /* margin-top: 5rem; */
+}
 
 @media (max-width: 576px) {
-  body::before {
+  body::after {
     content: 'XS';
   }
 }
 
 @media (min-width: 576px) {
-  body::before {
+  body::after {
     content: 'SM';
   }
 }
 
 @media (min-width: 768px) {
-  body::before {
+  body::after {
     content: 'MD';
   }
 }
 
 @media (min-width: 992px) {
-  body::before {
+  body::after {
     content: 'LG';
   }
 }
 
 @media (min-width: 1200px) {
-  body::before {
+  body::after {
     content: 'XL';
   }
 }
 
 @media (min-width: 1400px) {
-  body::before {
+  body::after {
     content: 'XXL';
   }
 }
@@ -43,4 +43,5 @@
   border: 1px solid red;
   min-height: 2rem;
   font-size: 2rem;
+  width: 100%;
 }
