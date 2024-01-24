@@ -3,3 +3,4 @@ ignore.txt
 .vscode
 .vscode/*
 tt
+node_modules

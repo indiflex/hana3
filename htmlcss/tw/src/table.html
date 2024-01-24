@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table</title>
+  <link href="../dist/output.css" rel="stylesheet">
+  <style>
+    table.org th,
+    table.org td {
+      border: 1px dotted skyblue;
+      width: 5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container flex gap-3 mt-5">
+    <div class="text-center">
+      <table class="org" style="border: 1px solid rgb(62, 62, 213); text-align: center;">
+        <thead>
+          <tr style="background-color: lightblue;">
+            <th>용도</th>
+            <th>중량</th>
+            <th>개수</th>
+            <th>가격</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2" class="">선물용</td>
+            <td class="">3KG</td>
+            <td class="">11~33과</td>
+            <td class="">5,000원</td>
+          </tr>
+          <tr>
+            <td class="">3KG</td>
+            <td class="">11~33과</td>
+            <td class="">5,000원</td>
+          </tr>
+          <tr>
+            <td rowspan="2" class="">가정용</td>
+            <td class="">3KG</td>
+            <td class="">11~33과</td>
+            <td class="">5,000원</td>
+          </tr>
+          <tr>
+            <td class="">3KG</td>
+            <td class="">11~33과</td>
+            <td class="">5,000원</td>
+          </tr>
+        </tbody>
+      </table>
+      <h1 style="text-align: center; font-size: 1.2rem;">선물용과 어쩌고 저쩌고...</h1>
+    </div>
+
+    <div class="text-center">
+      <table class="border border-green-400 text-center">
+        <thead>
+          <tr class="bg-green-100 ">
+            <th class="border border-dotted border-green-300 w-24">용도</th>
+            <th class="border border-dotted border-green-300 w-24">중량</th>
+            <th class="border border-dotted border-green-300 w-24">개수</th>
+            <th class="border border-dotted border-green-300 w-24">금액</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2" class="border border-dotted border-green-300">선물용</td>
+            <td class="border border-dotted border-green-300">33KG</td>
+            <td class="border border-dotted border-green-300">11~55과</td>
+            <td class="border border-dotted border-green-300">5,000원</td>
+          </tr>
+          <tr>
+            <td class="border border-dotted border-green-300">33KG</td>
+            <td class="border border-dotted border-green-300">11~55과</td>
+            <td class="border border-dotted border-green-300">5,000원</td>
+          </tr>
+          <tr>
+            <td rowspan="2" class="border border-dotted border-green-300">선물용</td>
+            <td class="border border-dotted border-green-300">33KG</td>
+            <td class="border border-dotted border-green-300">11~55과</td>
+            <td class="border border-dotted border-green-300">5,000원</td>
+          </tr>
+          <tr>
+            <td class="border border-dotted border-green-300">33KG</td>
+            <td class="border border-dotted border-green-300">11~55과</td>
+            <td class="border border-dotted border-green-300">5,000원</td>
+          </tr>
+        </tbody>
+      </table>
+      <h1 class="text-xl">선물용과 어쩌고 저쩌고...</h1>
+    </div>
+  </div>
+</body>
+
+</html>
