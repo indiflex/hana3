@@ -4,3 +4,4 @@ ignore.txt
 .vscode/*
 tt
 node_modules
+dist
