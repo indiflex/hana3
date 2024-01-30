@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CallBack</title>
+</head>
+
+<body>
+  <button id="button">BTN</button>
+
+  <script>
+    var id = 9;
+    window.addEventListener('load', (event) => {
+      document.getElementById('button').addEventListener('click', (event) => {
+        console.log(event.target); // (가)
+        console.log(event.currentTarget, this.id); // (가)
+      });
+
+      for (var i = 0; i < 5; i += 1) {      // ⇒ ⇒ ⇒
+        setTimeout(() => console.log(i), 1000); // (나)
+      }
+
+      console.log('The End'); // (다)
+    });
+
+  </script>
+</body>
+
+</html>
