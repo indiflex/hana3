@@ -1,3 +1,5 @@
+const assert = require('assert'); // CJS
+
 const arr = [1, 2, 3];
 console.log('🚀  arr:', { ...arr });
 console.log('🚀  arr:', arr.entries());
@@ -242,3 +244,50 @@ console.log('🚀  arr2:', arr2);
 // ex8) 위 7번 문제를 splice를 사용하지 말고 작성하시오.
 const ex8 = [...arr2.slice(0, 2), 'X', 'Y', 'Z', ...arr2.slice(-2)];
 console.log('🚀  ex8:', ex8);
+
+console.log('🚀  arr2:', arr2);
+// arr2.splice(2, 2);
+console.log('toSpliced>>', arr2.toSpliced(2, 2));
+console.log('🚀  arr2:', arr2);
+
+console.log('=============================');
+const flat1 = [1, 4, 9].map(a => [a ** 2, Math.sqrt(a)]);
+console.log('🚀  flat1:', flat1);
+const flat2 = [1, 4, 9].map(a => [a ** 2, Math.sqrt(a)]).flat();
+console.log('🚀  flat2:', flat2);
+const flat3 = flat1.flat();
+console.log('🚀  flat3:', flat3);
+
+const flat4 = [1, 4, 9].flatMap(a => [a ** 2, Math.sqrt(a)]);
+console.log('🚀  flat4:', flat4);
+
+const flat5 = [1, 4, 9].flatMap(a => [[a ** 2], [Math.sqrt(a)]]);
+console.log('🚀  flat5:', flat5);
+const flat6 = flat5.flat(Infinity);
+console.log('🚀  flat6:', flat6);
+
+console.log('=============================');
+let sum1 = 0;
+for (let item of arr) sum1 += item;
+console.log('🚀  sum1:', sum1);
+const sum2 = arr.reduce((sum, item) => sum + item, 0);
+// sum = 0
+// item = 1 ==> 0 + 1  ==> sum  (1)
+// item = 22 ==> 1 + 22  ==> sum (23)
+// item = 3 ==> 23 + 3  ==> sum (26)
+// sum2 = 26
+console.log('🚀  sum2:', sum2);
+console.log('--------------------------');
+const namestr = users.reduce(
+  (acc, item) => `${acc}${acc ? ' ' : ''}${item.name}`,
+  // (acc, item) => `${acc} ${item.name}`,
+  ''
+);
+console.log('🚀  namestr:', `${namestr}`);
+assert.strictEqual(namestr, 'Hong Kim Lee');
+
+const objs = [{ id: 1 }, { name: 'Hong' }, { addr: 'Seoul', id: 5 }];
+
+const obj = objs.reduce((acc, item) => ({ ...acc, ...item }), {});
+console.log('🚀  obj:', obj);
+assert.deepStrictEqual(obj, { id: 5, name: 'Hong', addr: 'Seoul' });
