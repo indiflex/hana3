@@ -144,11 +144,101 @@ const a1_2 = [...a1, ...a2];
 console.log('🚀  a1_2:', a1_2);
 
 const a22 = [2, 22];
+console.log(
+  '🚀  a22-isArray:',
+  Array.isArray(a22),
+  typeof a22,
+  typeof null,
+  typeof { id: 1 }
+);
+
+// [3, 33]
+// [ [5,55] ]
 function myConcat(...args) {
-  return [...a22, ...args];
+  // if (Array.isArray(args[0])) {
+  //   return [...a22, ...args[0]];
+  // } else {
+  //   return [...a22, ...args];
+  // }
+  const argsArr = Array.isArray(args[0]) ? args[0] : args;
+  return [...a22, ...argsArr];
 }
 
 const a22_1 = myConcat(3, 33);
 console.log('🚀  a22_1:', a22_1);
-const a22_2 = myConcat([3, 33]);
+const a22_2 = myConcat([5, 55]);
 console.log('🚀  a22_2:', a22_2);
+
+console.log('==============================');
+
+//         1 5 ==> 1   5
+//         4 5 ==> 4   5
+//         4 1 ==> 1 4  5
+//        11 4 ==> 1 4 11  5
+//        11 5 ==> 1 4 5  11
+//         7 5 ==> 1 4 5   11 7
+//        11 7 ==> 1 4 5 7 11
+const a5 = [1, 5, 4, 11, 7];
+console.log('🚀  a5-sort:', [...a5].sort());
+console.log(
+  '🚀  a5-sort-fn:',
+  a5.sort((a, b) => {
+    console.log('a,b=', a, b);
+    // return a > b ? -1 : 1;
+    // return a - b;
+    return b - a;
+  })
+);
+console.log('🚀  a5:', a5);
+console.log('🚀  a5-reverse:', [...a5].reverse());
+
+const a6 = ['Kim', 'Lee', 'Hong'];
+console.log('🚀  a6:', a6.sort());
+
+const users = [
+  { id: 1, name: 'Hong' },
+  { id: 20, name: 'Kim' },
+  { id: 3, name: 'Lee' },
+];
+console.log(
+  'users.sort>>',
+  [...users].sort((a, b) => a.id - b.id)
+);
+console.log('🚀  users:', users);
+
+console.log('-------------------------------');
+const arr2 = [1, 2, 3, 4, 5];
+
+// ex1) [2,3]을 추출
+const ex1 = arr2.slice(1, 3);
+console.log('🚀  ex1:', ex1);
+
+// ex2) [3]부터 모두 다 추출
+const ex2 = arr2.slice(2);
+console.log('🚀  ex2:', ex2);
+
+// ex3) [2,3,4] 제거하기
+const ex3 = arr2.splice(1, 3);
+console.log('🚀  ex3:', ex3, arr2);
+
+// ex4) 복원하기
+arr2.splice(1, 0, ...ex3);
+console.log('🚀  ex4:', arr2);
+
+// ex5) [3] 부터 끝까지 제거하기
+const ex5 = arr2.splice(2);
+console.log('🚀  ex5:', arr2, ex5);
+
+// ex6) 복원하기
+arr2.splice(2, 0, ...ex5);
+console.log('🚀  ex6:', arr2);
+
+// ex7) [1,2, 'X', 'Y', 'Z', 4, 5] 만들기
+const ex7 = [...arr2];
+ex7.splice(2, 1, 'X', 'Y', 'Z');
+console.log('🚀  ex7:', ex7);
+
+console.log('🚀  arr2:', arr2);
+// ex8) 위 7번 문제를 splice를 사용하지 말고 작성하시오.
+const ex8 = [...arr2.slice(0, 2), 'X', 'Y', 'Z', ...arr2.slice(-2)];
+console.log('🚀  ex8:', ex8);
