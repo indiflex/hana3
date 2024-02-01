@@ -1,4 +1,4 @@
-const obj = {
+let obj = {
   id: 1,
   name: 'Hong',
   f() {
@@ -34,6 +34,7 @@ class Animal {
 
   move() {
     console.log('MOV!!!');
+    return this;
   }
 
   getName() {
@@ -202,6 +203,26 @@ class Dog extends mixinPetFeed(Animal) {
     super(name);
   }
 
+  *[Symbol.iterator]() {
+    const names = this.name.split('');
+    yield '스펠링은...';
+    for (let i = 0; i < names.length; i += 1) {
+      console.log('generator>>>', i, names[i]);
+      yield names[i];
+    }
+  }
+
+  // [Symbol.iterator]() {
+  //   // return this.name.split('').values();
+  //   const names = this.name.split('');
+  //   let idx = 0;
+  //   return {
+  //     next() {
+  //       return { value: names[idx++], done: idx > names.length };
+  //     },
+  //   };
+  // }
+
   bark() {
     console.log('bowwow!', this.name);
   }
@@ -217,3 +238,27 @@ const jake = new Dog('Jake');
 jake.move();
 jake.bark();
 jake.feed('Banana');
+// for (const x of jake) console.log(x);
+// console.log('it>>>', [...jake]);
+console.log('--------------------------');
+const it = jake[Symbol.iterator]();
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+
+function* gener() {
+  const x = yield 1;
+  const y = yield x + 10;
+  console.log('x y =', x, y);
+  return x + y;
+}
+const it3 = gener();
+console.log(it3.next()); // { value: 1, done: false }
+console.log(it3.next(3)); // { value: 13, done: false }
+
+console.log(it3.next(5));
+// x y = 13 5
+// { value: 18, done: true }
