@@ -279,7 +279,8 @@ const sum2 = arr.reduce((sum, item) => sum + item, 0);
 console.log('🚀  sum2:', sum2);
 console.log('--------------------------');
 const namestr = users.reduce(
-  (acc, item) => `${acc}${acc ? ' ' : ''}${item.name}`,
+  // (acc, item) => `${acc}${acc ? ' ' : ''}${item.name}`,
+  (acc, item) => `${acc}${acc && ' '}${item.name}`,
   // (acc, item) => `${acc} ${item.name}`,
   ''
 );
