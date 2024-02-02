@@ -1,4 +1,5 @@
-const assert = require('assert'); // CJS
+// const assert = require('assert'); // CJS
+import assert from 'assert'; // ESM
 
 const arr = [1, 2, 3];
 console.log('🚀  arr:', { ...arr });
