@@ -1,12 +1,19 @@
 // import { getLastDate } from '../utils/dateutils.js';
 // import '../utils/arrayutils.js';
-import { getLastDate } from '../utils/index.js';
+import { getLastDate, rand } from '../utils/index.js';
 
 const d1 = new Date();
-d1.setFullYear(1970);
-d1.setMonth(0);
-d1.setDate(1);
-console.log('🚀  d1:', d1);
+try {
+  d1.setFullYear(1970);
+  d1.setMonth(0);
+  throw new Error('xxxxx');
+  d1.setDate(1);
+  console.log('🚀  d1:', d1);
+} catch (error) {
+  console.error(error);
+} finally {
+  console.log('done!');
+}
 
 const d2 = new Date();
 d2.setFullYear(1970);
@@ -15,8 +22,6 @@ d2.setDate(2);
 console.log('🚀  d2:', d2);
 
 console.log(Math.floor((d2.getTime() - d1.getTime()) / 1000));
-
-const rand = (s, e) => s + Math.floor((e - s + 1) * Math.random());
 
 console.log('🚀  lastDate11:', getLastDate(2024, 2));
 console.log('🚀  lastDate22:', getLastDate(new Date()));
