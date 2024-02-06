@@ -11,6 +11,12 @@
       list-style: none;
     }
 
+    div {
+      border: 1px solid blue;
+      padding: 10px;
+      ;
+    }
+
     .bg-yellow {
       background-color: yellow;
     }
@@ -22,15 +28,75 @@
     .hide {
       display: none;
     }
+
+    th,
+    td {
+      text-align: center;
+      border: 1px dotted green;
+      border-collapse: collapse;
+    }
   </style>
 </head>
 
 <body>
-  <ul class="bg-yellow">
+  <table id="myTable" align="center" border="1" style="margin-bottom: 20px;">
+    <caption>User List</caption>
+    <thead>
+      <tr>
+        <th style="width: 50px;">ID</th>
+        <th style="width: 100px;">Name</th>
+        <th style="width: 80px;">Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Hong</td>
+        <td>Seoul</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Kim</td>
+        <td rowspan="2">Seoul</td>
+      </tr>
+      <tr>
+        <td colspan="2">Choi</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table id="userTable" align="center" style="margin-bottom: 20px; border:1px solid blue; border-collapse: collapse;">
+    <caption>User List</caption>
+    <thead>
+      <tr style="border: 1px solid green;">
+        <th style="width: 50px;">ID</th>
+        <th style="width: 100px;">Name</th>
+        <th style="width: 80px;">Tel</th>
+        <th style="width: 60px;">Address</th>
+        <th style="width: 50px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <div id="div1">
+    <h3>div1</h3>
+    <div id="div2" style="background-color: lightgray; text-align: center;">
+      <h5>div2</h5>
+      <button id="btn">Button</button>
+    </div>
+  </div>
+
+  <form id="frm">
+    <button id="btnSubmit">Submit</button>
+  </form>
+
+  <!-- <ul class="bg-yellow">
     <li id="li1">aaa</li>
     <li id="li2">bbb</li>
     <li id="li3">ccc</li>
-  </ul>
+  </ul> -->
 </body>
 
 </html>
