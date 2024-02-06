@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject</title>
+  <script src="subject.js" defer></script>
+  <style>
+    ul {
+      list-style: none;
+      width: 50%;
+    }
+
+    ul li {
+      cursor: pointer;
+    }
+
+    .active {
+      background-color: green;
+      color: white;
+    }
+
+    .selected {
+      border: 1px solid green;
+      min-width: 50%;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .hide {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="display: flex;">
+    <div>
+      <h5>과목</h5>
+      <ul class="subjects">
+        <li>JavaScript</li>
+        <li>TypeScript</li>
+        <li>React</li>
+        <li>Next.js</li>
+      </ul>
+    </div>
+    <div class="selected hide">
+
+    </div>
+  </div>
+</body>
+
+</html>

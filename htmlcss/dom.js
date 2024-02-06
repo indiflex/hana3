@@ -28,6 +28,14 @@ btn.addEventListener('click', evt => {
   toUpper(aaa);
   const ccc = ul.lastElementChild;
   toUpper(ccc);
+
+  if (div.classList.contains('show')) {
+    div.classList.remove('show');
+    div.classList.add('hide');
+  } else {
+    div.classList.add('show');
+    div.classList.remove('hide');
+  }
 });
 
 console.log(div.textContent);
