@@ -1,16 +1,5 @@
 import assert from 'assert';
-
-const telfmt = telstr => {
-  const len = telstr?.length;
-  if (len <= 8)
-    return `${telstr.substring(0, len - 4)}-${telstr.substring(len - 4)}`;
-
-  const a = telstr.startsWith('02') ? 2 : len === 12 ? 4 : 3;
-  const b = len - 4 - a;
-
-  const regex = new RegExp(`(\\d{${a}})(\\d{${b}})(\\d{${4}})`);
-  return telstr.replace(regex, '$1-$2-$3');
-};
+import { telfmt } from '../utils/regexputils.js';
 
 assert.deepStrictEqual(telfmt('1577157'), '157-7157');
 assert.deepStrictEqual(telfmt('15771577'), '1577-1577');
