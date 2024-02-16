@@ -1,6 +1,5 @@
 const debounce = (cb: (...args: unknown[]) => void, delay: number = 0) => {
-  // let timer: ReturnType<typeof setTimeout>;
-  let timer: number;
+  let timer: ReturnType<typeof setTimeout>;
   return (...args: unknown[]) => {
     if (timer) {
       console.log(timer);
@@ -42,3 +41,12 @@ function btype(bt: BTX) {
   if (bt === 'A') {
   }
 }
+
+type User = { id: number; name: string; age: number };
+type PartialUser = Partial<User>;
+
+type UserRequiredProps = 'id' | 'name';
+type X = Pick<User, UserRequiredProps>;
+type Y = Partial<Omit<User, UserRequiredProps>>;
+type Z = X & Y;
+export {};
