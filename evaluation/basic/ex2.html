@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+
+    td,
+    th {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    th {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    window.onload = function () {
+      const data = {
+        "base_time": 20,
+        "list": [
+          { "id": 1, "username": "홍길동", "work_time": 40, "per_pay": 10000 },
+          { "id": 2, "username": "송민헌", "work_time": 20, "per_pay": 20000 },
+          { "id": 3, "username": "장길산", "work_time": 30, "per_pay": 30000 },
+          { "id": 4, "username": "임꺽정", "work_time": 10, "per_pay": 40000 },
+          { "id": 5, "username": "강민구", "work_time": 30, "per_pay": 10000 }
+        ]
+      };
+
+      // table 생성
+      const table = document.createElement('table');
+      const thead = table.createTHead();
+      const tbody = table.createTBody();
+
+      // row header 생성
+      const headerRow = thead.insertRow();
+      const headers = ["번호", "이름", "근무시간", "시간당급여액", "기본액", "초과수당", "합계", "세액", "실지불액"];
+      headers.forEach((header) => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+
+      // data row 추가
+      const baseTime = data.base_time;
+      const OVERTIME_PAY_PERCENT = 50;
+      const TAX_PERCENT = 3.3;
+      let total = 0;
+      const COL_IDX = {
+        "id": 0,
+        "username": 1,
+        "work_time": 2,
+        "per_pay": 3,
+        "regular_pay": 4,
+        "overtime_pay": 5,
+        "total_amount": 6,
+        "tax_amount": 7,
+        "actual_payment": 8
+      };
+
+
+      data.list.forEach((item) => {
+        const row = tbody.insertRow();
+        const cells = Array(headers.length);
+        for (const [k, v] of Object.entries(item)) {
+          cells[COL_IDX[k]] = v;
+        }
+
+        // 기본액
+        const regularPay = item["work_time"] * item["per_pay"];
+        cells[COL_IDX["regular_pay"]] = regularPay;
+
+        // 초과수당
+        const overtime = (item["work_time"] - baseTime);
+        const overtimePay = ((overtime > 0) ? overtime : 0) * item["per_pay"] * (OVERTIME_PAY_PERCENT / 100);
+        cells[COL_IDX["overtime_pay"]] = overtimePay;
+
+        // 합계
+        cells[COL_IDX["total_amount"]] = overtimePay + regularPay;
+
+        // 세액
+        cells[COL_IDX["tax_amount"]] = cells[COL_IDX["total_amount"]] * TAX_PERCENT / 100;
+
+        // 실지불액
+        const actualPayment = cells[COL_IDX["total_amount"]] - cells[COL_IDX["tax_amount"]];
+        cells[COL_IDX["actual_payment"]] = actualPayment;
+        total += actualPayment;
+
+        cells.forEach((val) => {
+          const cell = row.insertCell();
+          if (!isNaN(val)) {
+            val = val.toLocaleString();
+            cell.style.textAlign = 'right';
+          }
+          cell.innerText = val;
+        });
+        tbody.append(row);
+      });
+
+      // 총지불금액합계
+      const row = tbody.insertRow();
+      const cell = row.insertCell();
+      cell.innerText = `총지불액 : ${total.toLocaleString()}`
+      cell.colSpan = headers.length;
+      tbody.append(row)
+      document.body.appendChild(table);
+    }
+  </script>
+</body>
+
+</html>

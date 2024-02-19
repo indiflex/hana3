@@ -1,8 +1,16 @@
-const debounce = (cb: (...args: unknown[]) => void, delay: number = 0) => {
+const debounceOrg = (cb: (...args: unknown[]) => void, delay: number = 0) => {
   let timer: ReturnType<typeof setTimeout>;
   return (...args: unknown[]) => {
     if (timer) {
-      console.log(timer);
+      clearTimeout(timer);
+    }
+    timer = setTimeout(cb, delay, ...args);
+  };
+};
+const debounce = <T>(cb: (...args: T[]) => void, delay: number = 0) => {
+  let timer: ReturnType<typeof setTimeout>;
+  return (...args: T[]) => {
+    if (timer) {
       clearTimeout(timer);
     }
     timer = setTimeout(cb, delay, ...args);

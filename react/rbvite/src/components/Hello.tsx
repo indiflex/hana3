@@ -1,3 +1,5 @@
+// import { PropsWithChildren } from 'react';
+
 import { PropsWithChildren } from 'react';
 
 type Props = {
@@ -8,14 +10,21 @@ type Props = {
   // children: React.ReactElement;
 };
 
-export const Hello = ({
+// const Hello = ({
+//   name,
+//   age,
+//   plusCount,
+//   children,
+// }: PropsWithChildren<Props>) => {
+// const Hello: React.FC<Props> = ({ name, age, plusCount }) => {
+const Hello = ({
   name,
   age,
   plusCount,
   children,
 }: PropsWithChildren<Props>) => {
   age = age + 1;
-  console.log('age>>>>', age);
+  // console.log('age>>>>', age);
   return (
     <div style={{ border: '1px solid green' }}>
       <h3>
@@ -26,3 +35,5 @@ export const Hello = ({
     </div>
   );
 };
+
+export default Hello;

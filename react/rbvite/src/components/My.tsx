@@ -23,7 +23,9 @@ export const My = ({ session: { loginUser, cart }, login, logout }: Props) => {
       <ul>
         {cart.map(({ id, name, price }: Cart) => (
           <li key={id}>
+            <small>{id}.</small>
             {name} ({price.toLocaleString()}원)
+            <button onClick={() => removeItem(id)}>X</button>
           </li>
         ))}
       </ul>

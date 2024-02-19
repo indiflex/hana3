@@ -2,8 +2,9 @@ import { useState } from 'react';
 // import reactLogo from './assets/react.svg';
 // import viteLogo from '/vite.svg';
 import './App.css';
-import { Hello } from './components/Hello';
+import Hello from './components/Hello';
 import { My } from './components/My';
+import { flushSync } from 'react-dom';
 
 // {ss: 'FirstComponent' }
 // function H5(prop: { ss: string }) {
@@ -41,6 +42,8 @@ function App() {
     setSession({ ...session, loginUser: null });
   };
 
+  console.log('Declare-Area: Re-render!!!');
+
   return (
     <>
       <h1 style={{ color: 'white', backgroundColor: 'red' }}>Vite + React</h1>
@@ -56,7 +59,13 @@ function App() {
       <div className='card'>
         <button
           onClick={() => {
-            setCount((count) => count + 1);
+            // setCount((count) => count + 1);
+            for (let i = 0; i < 10; i += 1) {
+              // console.log('i=', i);
+              // setCount(count + 1);
+              // setCount((prev) => prev + 1);
+              flushSync(() => setCount((prev) => prev + 1));
+            }
           }}
         >
           count is {count}
