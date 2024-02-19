@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 const CITIES = ['서울', '대전', '대구', '부산', '창원'];
 
@@ -7,9 +7,12 @@ export default function Sample() {
   const [address, setAddress] = useState('서울');
   const [age, setAge] = useState(0);
 
+  const nameChangeCnt = useRef(0);
+
   const changeNickname = (e: ChangeEvent<HTMLInputElement>) => {
     setNickname(e.currentTarget.value);
-    console.log('***************', nickname);
+    console.log('***************', nickname, nameChangeCnt);
+    nameChangeCnt.current += 1;
   };
 
   return (
@@ -36,6 +39,8 @@ export default function Sample() {
             </option>
           ))}
         </select>
+
+        <button onClick={() => alert(nameChangeCnt.current)}>TTT</button>
       </div>
     </>
   );
