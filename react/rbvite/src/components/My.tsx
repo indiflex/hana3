@@ -4,12 +4,18 @@ import { Profile } from './Profile';
 
 type Props = {
   session: Session;
-  login: () => void;
+  login: (id: number, name: string) => void;
   logout: () => void;
+  removeItem: (itemId: number) => void;
 };
 
-export const My = ({ session: { loginUser, cart }, login, logout }: Props) => {
-  if (loginUser) loginUser.name = 'XXXXXXX';
+export const My = ({
+  session: { loginUser, cart },
+  login,
+  logout,
+  removeItem,
+}: Props) => {
+  // if (loginUser) loginUser.name = 'XXXXXXX';
   return (
     <div
       style={{ border: '2px solid red', marginBottom: '2rem', padding: '1rem' }}

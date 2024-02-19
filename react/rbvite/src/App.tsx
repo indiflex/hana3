@@ -35,11 +35,25 @@ function App() {
 
   // const plusCount = () => setCount(count + 1);
   const plusCount = () => setCount((prevCount) => prevCount + 1);
-  const login = () => {};
+  const login = (id: number, name: string) => {
+    setSession({ ...session, loginUser: { id, name } });
+  };
   const logout = () => {
     // setSession({ cart: [...session.cart], loginUser: null });
     // session.loginUser = null;
     setSession({ ...session, loginUser: null });
+  };
+
+  const removeItem = (itemId: number) => {
+    console.log('🚀  itemId:', itemId);
+    setSession({
+      ...session,
+      // cart: [...session.cart.filter((item) => item.id !== itemId)],
+      cart: session.cart.filter((item) => item.id !== itemId),
+    });
+
+    // Virtual-DOM의 rerender() 호출 안함(: session의 주소는 안변했으니까!)
+    // session.cart = session.cart.filter((item) => item.id !== itemId);
   };
 
   console.log('Declare-Area: Re-render!!!');
@@ -48,7 +62,12 @@ function App() {
     <>
       <h1 style={{ color: 'white', backgroundColor: 'red' }}>Vite + React</h1>
       {/* <H5 ss={`First-Component ${count}`} /> */}
-      <My session={session} login={login} logout={logout} />
+      <My
+        session={session}
+        login={login}
+        logout={logout}
+        removeItem={removeItem}
+      />
       <Hello
         name={session.loginUser?.name || 'Guest'}
         age={count}
