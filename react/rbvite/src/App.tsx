@@ -45,6 +45,18 @@ function App() {
     setSession({ ...session, loginUser: null });
   };
 
+  // add(id=0) or modify(id!=0) item
+  const saveItem = ({ id, name, price }: Cart) => {
+    if (!id) {
+      id = Math.max(...session.cart.map((item) => item.id), 0) + 1;
+      // session.cart.push({ id, name, price });
+      setSession({
+        ...session,
+        cart: [...session.cart, { id, name, price }],
+      });
+    }
+  };
+
   const removeItem = (itemId: number) => {
     console.log('🚀  itemId:', itemId);
     setSession({
@@ -70,6 +82,7 @@ function App() {
         login={login}
         logout={logout}
         removeItem={removeItem}
+        saveItem={saveItem}
       />
       <Hello
         name={session.loginUser?.name || 'Guest'}
