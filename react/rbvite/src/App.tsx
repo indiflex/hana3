@@ -1,16 +1,22 @@
-import { useRef, useState } from 'react';
+import { LegacyRef, Ref, createRef, forwardRef, useRef, useState } from 'react';
 // import reactLogo from './assets/react.svg';
 // import viteLogo from '/vite.svg';
 import './App.css';
 import Hello from './components/Hello';
-import { My } from './components/My';
+import My from './components/My';
 import { flushSync } from 'react-dom';
 
 // {ss: 'FirstComponent' }
-// function H5(prop: { ss: string }) {
 // function H5({ ss }: { ss: string }) {
-//   return <h5>H55555566-{ss}</h5>;
-// }
+const H5 = forwardRef(({ ss }: { ss: string }, ref: Ref<HTMLInputElement>) => {
+  return (
+    <div style={{ border: '1px solid skyblue', marginBottom: '0.5rem' }}>
+      <h5>H55555566-{ss}</h5>
+      <input type='text' ref={ref} placeholder='child-input...' />
+    </div>
+  );
+});
+H5.displayName = 'H5';
 
 export type LoginUser = { id: number; name: string };
 export type Cart = { id: number; name: string; price: number };
@@ -20,8 +26,8 @@ export type Session = {
 };
 
 const SampleSession: Session = {
-  loginUser: null,
-  // loginUser: { id: 1, name: 'Hong' },
+  // loginUser: null,
+  loginUser: { id: 1, name: 'Hong' },
   cart: [
     { id: 100, name: '라면', price: 3000 },
     { id: 101, name: '컵라면', price: 2000 },
@@ -33,6 +39,8 @@ function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const childInputRef = createRef<HTMLInputElement>();
+  const logoutBtnRef = createRef<HTMLButtonElement>();
 
   // const plusCount = () => setCount(count + 1);
   const plusCount = () => setCount((prevCount) => prevCount + 1);
@@ -83,13 +91,30 @@ function App() {
       <h1 ref={titleRef} style={{ color: 'white', backgroundColor: 'red' }}>
         Vite + React
       </h1>
-      {/* <H5 ss={`First-Component ${count}`} /> */}
+
+      <H5 ss={`First-Component ${count}`} ref={childInputRef} />
+      <button
+        onClick={() => {
+          if (childInputRef.current) {
+            childInputRef.current.value = 'XXXX';
+            childInputRef.current.select();
+          }
+        }}
+      >
+        call H5 input
+      </button>
+
+      <button onClick={() => logoutBtnRef.current?.click()}>
+        App-Sign-Out
+      </button>
+
       <My
         session={session}
         login={login}
         logout={logout}
         removeItem={removeItem}
         saveItem={saveItem}
+        ref={logoutBtnRef}
       />
       <Hello
         name={session.loginUser?.name || 'Guest'}
@@ -113,7 +138,6 @@ function App() {
           count is {count}
         </button>
       </div>
-
       <button
         onClick={() => titleRef.current?.scrollIntoView({ behavior: 'smooth' })}
       >
