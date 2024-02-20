@@ -47,14 +47,21 @@ function App() {
 
   // add(id=0) or modify(id!=0) item
   const saveItem = ({ id, name, price }: Cart) => {
-    if (!id) {
+    const { cart } = session;
+    const foundItem = id !== 0 && cart.find((item) => item.id === id);
+    if (!foundItem) {
       id = Math.max(...session.cart.map((item) => item.id), 0) + 1;
-      // session.cart.push({ id, name, price });
-      setSession({
-        ...session,
-        cart: [...session.cart, { id, name, price }],
-      });
+      cart.push({ id, name, price });
+    } else {
+      foundItem.name = name;
+      foundItem.price = price;
     }
+
+    setSession({
+      ...session,
+      // cart,
+      // cart: [...cart],
+    });
   };
 
   const removeItem = (itemId: number) => {
