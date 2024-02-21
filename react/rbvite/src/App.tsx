@@ -1,9 +1,9 @@
-import { LegacyRef, Ref, createRef, forwardRef, useRef, useState } from 'react';
+import { Ref, createRef, forwardRef, useRef, useState } from 'react';
 // import reactLogo from './assets/react.svg';
 // import viteLogo from '/vite.svg';
 import './App.css';
 import Hello from './components/Hello';
-import My from './components/My';
+import My, { ItemHandler } from './components/My';
 import { flushSync } from 'react-dom';
 
 // {ss: 'FirstComponent' }
@@ -26,8 +26,8 @@ export type Session = {
 };
 
 const SampleSession: Session = {
-  // loginUser: null,
-  loginUser: { id: 1, name: 'Hong' },
+  loginUser: null,
+  // loginUser: { id: 1, name: 'Hong' },
   cart: [
     { id: 100, name: '라면', price: 3000 },
     { id: 101, name: '컵라면', price: 2000 },
@@ -38,13 +38,38 @@ const SampleSession: Session = {
 function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+
   const childInputRef = createRef<HTMLInputElement>();
-  const logoutBtnRef = createRef<HTMLButtonElement>();
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  const myHandlerRef = useRef<ItemHandler>(null);
 
   // const plusCount = () => setCount(count + 1);
   const plusCount = () => setCount((prevCount) => prevCount + 1);
+
   const login = (id: number, name: string) => {
+    console.log('🚀  id name :', id, name, myHandlerRef.current);
+
+    if (!myHandlerRef.current) return;
+    const loginNoti = myHandlerRef.current.loginHandler.noti;
+    console.log('🚀  loginNoti:', loginNoti);
+    if (!loginNoti) return;
+
+    const focusId = myHandlerRef.current.loginHandler.focusId;
+    const focusName = myHandlerRef.current.loginHandler.focusName;
+
+    if (!id || isNaN(id)) {
+      loginNoti('User ID를 입력하세요!');
+      if (focusId) focusId();
+      return;
+    }
+
+    if (!name) {
+      loginNoti('User name을 입력하세요!');
+      if (focusName) focusName();
+      return;
+    }
+
     setSession({ ...session, loginUser: { id, name } });
   };
   const logout = () => {
@@ -104,9 +129,13 @@ function App() {
         call H5 input
       </button>
 
-      <button onClick={() => logoutBtnRef.current?.click()}>
+      <button onClick={() => myHandlerRef.current?.signOut()}>
         App-Sign-Out
       </button>
+      <button onClick={() => myHandlerRef.current?.notify('테스트메시지')}>
+        Message
+      </button>
+      <button onClick={() => myHandlerRef.current?.removeItem()}>Rm2</button>
 
       <My
         session={session}
@@ -114,7 +143,7 @@ function App() {
         logout={logout}
         removeItem={removeItem}
         saveItem={saveItem}
-        ref={logoutBtnRef}
+        ref={myHandlerRef}
       />
       <Hello
         name={session.loginUser?.name || 'Guest'}

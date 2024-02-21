@@ -1,7 +1,21 @@
-import { Ref, forwardRef, useRef, useState } from 'react';
+import {
+  ForwardedRef,
+  createRef,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { Cart, Session } from '../App';
-import { Login } from './Login';
+import { Login, LoginHandler } from './Login';
 import { Profile } from './Profile';
+
+export type ItemHandler = {
+  signOut: () => void;
+  notify: (msg: string) => void;
+  removeItem: () => void;
+  loginHandler: Partial<LoginHandler>;
+};
 
 type Props = {
   session: Session;
@@ -20,14 +34,34 @@ const My = forwardRef(
       removeItem,
       saveItem,
     }: Props,
-    ref: Ref<HTMLButtonElement>
+    ref: ForwardedRef<ItemHandler>
   ) => {
     // const itemIdRef = useRef(0);
     const [currId, setCurrId] = useState(0);
+    const [message, setMessage] = useState('');
 
     const itemNameRef = useRef<HTMLInputElement>(null);
     const itemPriceRef = useRef<HTMLInputElement>(null);
     // if (loginUser) loginUser.name = 'XXXXXXX';
+
+    const logoutBtnRef = createRef<HTMLButtonElement>();
+    const loginHandlerRef = useRef<LoginHandler>(null);
+
+    const itemHandler: ItemHandler = {
+      signOut: () => logoutBtnRef.current?.click(),
+      notify: (msg: string) => setMessage(msg),
+      removeItem: () => {
+        const { id } = cart.find((_, idx) => idx === 1)!;
+        removeItem(id);
+      },
+      loginHandler: {
+        noti: (msg: string) => loginHandlerRef.current?.noti(msg),
+        focusId: () => loginHandlerRef.current?.focusId(),
+        focusName: () => loginHandlerRef.current?.focusName(),
+      },
+    };
+
+    useImperativeHandle(ref, () => itemHandler);
 
     const saveCartItem = (e: React.FormEvent) => {
       e.preventDefault();
@@ -60,10 +94,17 @@ const My = forwardRef(
           padding: '1rem',
         }}
       >
+        {message && (
+          <>
+            <h3>{message}</h3>
+            <hr />
+          </>
+        )}
+
         {loginUser ? (
-          <Profile loginUser={loginUser} logout={logout} ref={ref} />
+          <Profile loginUser={loginUser} logout={logout} ref={logoutBtnRef} />
         ) : (
-          <Login login={login} />
+          <Login login={login} ref={loginHandlerRef} />
         )}
 
         <ul className='un-list'>
