@@ -1,12 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { PropsWithChildren, createContext, useContext, useState } from 'react';
-
-export type LoginUser = { id: number; name: string };
-export type Cart = { id: number; name: string; price: number };
-export type Session = {
-  loginUser: LoginUser | null;
-  cart: Cart[];
-};
+import {
+  ReactNode,
+  RefObject,
+  createContext,
+  useContext,
+  useState,
+} from 'react';
+import { ItemHandler } from '../components/My';
 
 type SessionContextProp = {
   session: Session;
@@ -34,31 +34,30 @@ const SessionContext = createContext<SessionContextProp>({
   removeItem: () => {},
 });
 
-export const SessionProiver = ({ children }: PropsWithChildren) => {
+type ProviderProps = {
+  children: ReactNode;
+  myHandlerRef?: RefObject<ItemHandler>;
+};
+
+export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
   const [session, setSession] = useState<Session>(SampleSession);
 
-  // TODO: validation checking!!
   const login = (id: number, name: string) => {
-    // console.log('🚀  id name :', id, name, myHandlerRef.current);
+    const loginNoti = myHandlerRef?.current?.loginHandler.noti || alert;
+    console.log('🚀  loginNoti:', loginNoti);
 
-    // if (!myHandlerRef.current) return;
-    // const loginNoti = myHandlerRef.current.loginHandler.noti;
-    // console.log('🚀  loginNoti:', loginNoti);
-    // if (!loginNoti) return;
-
-    // const focusId = myHandlerRef.current.loginHandler.focusId;
-    // const focusName = myHandlerRef.current.loginHandler.focusName;
+    const focusId = myHandlerRef?.current?.loginHandler.focusId;
+    const focusName = myHandlerRef?.current?.loginHandler.focusName;
 
     if (!id || isNaN(id)) {
-      alert('User ID를 입력하세요!');
-      // if (focusId) focusId();
+      loginNoti('User ID를 입력하세요!');
+      if (focusId) focusId();
       return;
     }
 
     if (!name) {
-      alert('User name을 입력하세요!');
-      // loginNoti('User name을 입력하세요!');
-      // if (focusName) focusName();
+      loginNoti('User name을 입력하세요!');
+      if (focusName) focusName();
       return;
     }
 

@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { Login, LoginHandler } from './Login';
 import { Profile } from './Profile';
-import { Cart, useSession } from '../contexts/session-context';
+import { useSession } from '../contexts/session-context';
 
 export type ItemHandler = {
   signOut: () => void;

@@ -1,12 +1,10 @@
 import { Ref, createRef, forwardRef, useRef } from 'react';
-// import reactLogo from './assets/react.svg';
-// import viteLogo from '/vite.svg';
 import './App.css';
 import Hello from './components/Hello';
 import My, { ItemHandler } from './components/My';
 import { flushSync } from 'react-dom';
 import { useCounter } from './contexts/counter-context';
-import { SessionProiver } from './contexts/session-context';
+import { SessionProvider } from './contexts/session-context';
 
 // {ss: 'FirstComponent' }
 // function H5({ ss }: { ss: string }) {
@@ -51,10 +49,12 @@ function App() {
         Message
       </button>
       <button onClick={() => myHandlerRef.current?.removeItem()}>Rm2</button>
-      <SessionProiver>
+
+      <SessionProvider myHandlerRef={myHandlerRef}>
         <My ref={myHandlerRef} />
         <Hello>Hello-children!!!!!!!!!!!</Hello>
-      </SessionProiver>
+      </SessionProvider>
+
       <div className='card'>
         <button
           onClick={() => {
