@@ -5,6 +5,7 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react';
+import { useCounter } from '../contexts/counter-context';
 
 export type LoginHandler = {
   noti: (msg: string) => void;
@@ -23,6 +24,7 @@ export const Login = forwardRef(
     const nameRef = useRef<HTMLInputElement | null>(null);
     // console.log('🚀  idRef:', idRef);
     // const [name, setName] = useState('');
+    const { count } = useCounter();
 
     const handler = {
       noti: (msg: string) => alert(msg),
@@ -58,7 +60,7 @@ export const Login = forwardRef(
       <>
         <form onSubmit={makeLogin}>
           <div>
-            <span style={{ marginRight: '1em' }}>LoginID:</span>
+            <span style={{ marginRight: '1em' }}>{count}-LoginID:</span>
             <input type='number' ref={idRef} />
           </div>
           <div>

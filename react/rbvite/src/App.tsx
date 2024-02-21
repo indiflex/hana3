@@ -5,6 +5,7 @@ import './App.css';
 import Hello from './components/Hello';
 import My, { ItemHandler } from './components/My';
 import { flushSync } from 'react-dom';
+import { useCounter } from './contexts/counter-context';
 
 // {ss: 'FirstComponent' }
 // function H5({ ss }: { ss: string }) {
@@ -36,16 +37,14 @@ const SampleSession: Session = {
 };
 
 function App() {
-  const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
+
+  const { count, plusCount } = useCounter();
 
   const childInputRef = createRef<HTMLInputElement>();
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   const myHandlerRef = useRef<ItemHandler>(null);
-
-  // const plusCount = () => setCount(count + 1);
-  const plusCount = () => setCount((prevCount) => prevCount + 1);
 
   const login = (id: number, name: string) => {
     console.log('🚀  id name :', id, name, myHandlerRef.current);
@@ -145,11 +144,7 @@ function App() {
         saveItem={saveItem}
         ref={myHandlerRef}
       />
-      <Hello
-        name={session.loginUser?.name || 'Guest'}
-        age={count}
-        plusCount={plusCount}
-      >
+      <Hello name={session.loginUser?.name || 'Guest'}>
         Hello-children!!!!!!!!!!!
       </Hello>
       <div className='card'>
@@ -160,7 +155,7 @@ function App() {
               // console.log('i=', i);
               // setCount(count + 1);
               // setCount((prev) => prev + 1);
-              flushSync(() => setCount((prev) => prev + 1));
+              flushSync(plusCount);
             }
           }}
         >
@@ -175,5 +170,5 @@ function App() {
     </>
   );
 }
-
+console.log('App>>', App, typeof App);
 export default App;

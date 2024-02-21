@@ -18,5 +18,5 @@ export const Profile = forwardRef(
     );
   }
 );
-
+console.log('::>>', Profile, typeof Profile);
 Profile.displayName = 'Profile';
