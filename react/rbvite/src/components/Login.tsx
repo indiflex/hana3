@@ -5,7 +5,6 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState,
 } from 'react';
 import { useCounter } from '../contexts/counter-context';
 import { useSession } from '../contexts/session-context';
@@ -75,7 +74,7 @@ export const Login = forwardRef((_, ref: ForwardedRef<LoginHandler>) => {
   //   return () => clearTimeout(tmout);
   // }, [count]);
 
-  useTimeout(() => console.log('X=', count), 1000);
+  useTimeout(() => console.log('X=', count), 1000, [count]);
 
   // const [isShow, setShow] = useState(false);
   const [isShow, toggle] = useToggle();
