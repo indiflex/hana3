@@ -76,7 +76,7 @@ export const Login = forwardRef((_, ref: ForwardedRef<LoginHandler>) => {
 
   const { reset, clear } = useTimeout(
     () => console.log('isShow=', isShow),
-    count * 1000,
+    isShow ? 1000 : 2000,
     [isShow]
   );
 

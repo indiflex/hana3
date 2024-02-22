@@ -7,22 +7,33 @@ export const useTimeout = (
   dependencies: unknown[] = []
 ) => {
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
-  // const cbRef = useRef(cb);
-  // cbRef.current = cb;
+
+  const cbRef = useRef(cb);
+  cbRef.current = cb;
+  const delayRef = useRef(delay);
+  delayRef.current = delay;
 
   const setup = useCallback(() => {
-    console.log('set-up!!');
+    console.log('set-up!!', delay, delayRef.current);
+    //                      &100,  &800.current
     // timerRef.current = setTimeout(cbRef.current, delay);
-    timerRef.current = setTimeout(cb, delay);
-  }, [cb, delay]);
+    timerRef.current = setTimeout(cbRef.current, delayRef.current);
+    //                            &900.current,  &800.current
+    // timerRef.current = setTimeout(cb, delay);
+  }, []);
+  // const setup = () => {
+  //   console.log('set-up!!', delay);
+  //   // timerRef.current = setTimeout(cbRef.current, delay);
+  //   timerRef.current = setTimeout(cb, delay);
+  // };
 
   const clear = useCallback(() => {
-    console.log('clear!!');
+    // console.log('clear!!');
     clearTimeout(timerRef.current);
   }, []);
 
   const reset = useCallback(() => {
-    console.log('reset!!');
+    // console.log('reset!!');
     clear();
     setup();
   }, [setup, clear]);
