@@ -14,7 +14,7 @@ export const useTimeout = (
   delayRef.current = delay;
 
   const setup = useCallback(() => {
-    console.log('set-up!!', delay, delayRef.current);
+    // console.log('set-up!!', delay, delayRef.current);
     //                      &100,  &800.current
     // timerRef.current = setTimeout(cbRef.current, delay);
     timerRef.current = setTimeout(cbRef.current, delayRef.current);

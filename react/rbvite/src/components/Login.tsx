@@ -61,6 +61,7 @@ export const Login = forwardRef((_, ref: ForwardedRef<LoginHandler>) => {
   useEffect(() => {
     // console.log('Please login...');
     plusCount();
+    idRef.current?.focus();
 
     return () => {
       // console.log('logined!');
