@@ -1,17 +1,12 @@
-import {
-  Ref,
-  createRef,
-  forwardRef,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Ref, createRef, forwardRef, useRef } from 'react';
 import './App.css';
 import Hello from './components/Hello';
 import My, { ItemHandler } from './components/My';
 import { flushSync } from 'react-dom';
 import { useCounter } from './contexts/counter-context';
 import { SessionProvider } from './contexts/session-context';
+import Posts from './components/Posts';
+import MouseCapture from './components/MouseCapture';
 // import Effect from './components/Effect';
 
 // {ss: 'FirstComponent' }
@@ -26,38 +21,29 @@ const H5 = forwardRef(({ ss }: { ss: string }, ref: Ref<HTMLInputElement>) => {
 });
 H5.displayName = 'H5';
 
-type Position = { x: number; y: number };
-
 function App() {
   const { count, plusCount } = useCounter();
-  const [position, setPosition] = useState<Position>({
-    x: 0,
-    y: 0,
-  });
 
   const childInputRef = createRef<HTMLInputElement>();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const myHandlerRef = useRef<ItemHandler>(null);
 
-  const catchPosition = ({ x, y }: Position) => {
-    setPosition({ x, y });
-  };
-
-  useLayoutEffect(() => {
-    window.addEventListener('mousemove', catchPosition);
-
-    return () => window.removeEventListener('mousemove', catchPosition);
-  });
-
   return (
     <>
       {/* <Effect /> */}
-      <small>{JSON.stringify(position)}</small>
       <h1 ref={titleRef} style={{ color: 'white', backgroundColor: 'red' }}>
         Vite + React
       </h1>
 
-      <H5 ss={`First-Component ${count}`} ref={childInputRef} />
+      <SessionProvider myHandlerRef={myHandlerRef}>
+        <Posts />
+        <My ref={myHandlerRef} />
+        <Hello>Hello-children!!!!!!!!!!!</Hello>
+      </SessionProvider>
+
+      <MouseCapture />
+
+      {/* <H5 ss={`First-Component ${count}`} ref={childInputRef} /> */}
       <button
         onClick={() => {
           if (childInputRef.current) {
@@ -91,11 +77,6 @@ function App() {
           count is {count}
         </button>
       </div>
-
-      <SessionProvider myHandlerRef={myHandlerRef}>
-        <My ref={myHandlerRef} />
-        <Hello>Hello-children!!!!!!!!!!!</Hello>
-      </SessionProvider>
 
       <button
         onClick={() => titleRef.current?.scrollIntoView({ behavior: 'smooth' })}

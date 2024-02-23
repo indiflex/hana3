@@ -110,7 +110,7 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
       const res = await fetch('/data/sample.json', {
         signal,
       });
-      const data = await res.json();
+      const data = (await res.json()) as Session;
       setSession(data);
     })();
 

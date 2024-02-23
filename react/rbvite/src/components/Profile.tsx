@@ -10,7 +10,9 @@ export const Profile = forwardRef((_, ref: Ref<HTMLButtonElement>) => {
   } = useSession();
   return (
     <>
-      <h3>이름: {loginUser?.name}</h3>
+      <h3>
+        #{loginUser?.id}: {loginUser?.name}
+      </h3>
       <button ref={ref} onClick={logout}>
         Sign-out
       </button>
