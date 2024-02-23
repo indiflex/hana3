@@ -28,6 +28,7 @@ const My = forwardRef((_, ref: ForwardedRef<ItemHandler>) => {
     session: { loginUser, cart },
     removeItem,
     saveItem,
+    totalPrice,
   } = useSession();
 
   const itemNameRef = useRef<HTMLInputElement>(null);
@@ -117,6 +118,8 @@ const My = forwardRef((_, ref: ForwardedRef<ItemHandler>) => {
           </li>
         ))}
       </ul>
+      <div>총 {totalPrice.toLocaleString()}원</div>
+
       <form onSubmit={saveCartItem} onReset={() => setCurrId(0)}>
         <input type='text' ref={itemNameRef} placeholder='상품명...' />
         <input type='number' ref={itemPriceRef} placeholder='금액...' />

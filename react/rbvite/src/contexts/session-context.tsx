@@ -17,6 +17,7 @@ type SessionContextProp = {
   logout: () => void;
   saveItem: ({ id, name, price }: Cart) => void;
   removeItem: (itemId: number) => void;
+  totalPrice: number;
 };
 
 // @move to public/data/sample.json!!
@@ -27,6 +28,7 @@ const SessionContext = createContext<SessionContextProp>({
   logout: () => {},
   saveItem: () => {},
   removeItem: () => {},
+  totalPrice: 0,
 });
 
 type ProviderProps = {

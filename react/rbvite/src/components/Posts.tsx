@@ -55,7 +55,7 @@ const Post = ({ post }: { post: PostType }) => {
   return (
     <li>
       {post.title}
-      <button onClick={() => toggleOpen()}>
+      <button onClick={() => toggleOpen()} className='rounded ml-3'>
         {isOpen ? <FaAngleUp /> : <FaAngleDown />}
       </button>
       {isOpen && <div>{post.body}</div>}

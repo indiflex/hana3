@@ -1,4 +1,12 @@
-import { Ref, createRef, forwardRef, useRef } from 'react';
+import {
+  Ref,
+  createRef,
+  forwardRef,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import './App.css';
 import Hello from './components/Hello';
 import My, { ItemHandler } from './components/My';
@@ -12,10 +20,22 @@ import MouseCapture from './components/MouseCapture';
 // {ss: 'FirstComponent' }
 // function H5({ ss }: { ss: string }) {
 const H5 = forwardRef(({ ss }: { ss: string }, ref: Ref<HTMLInputElement>) => {
+  const [, rerender] = useState(0);
+  const array = useMemo(() => [1, 2, 3], []);
+  useEffect(() => {
+    console.log('effect Array@@@');
+  }, [array]);
+
   return (
     <div style={{ border: '1px solid skyblue', marginBottom: '0.5rem' }}>
       <h5>H55555566-{ss}</h5>
       <input type='text' ref={ref} placeholder='child-input...' />
+      <button
+        onClick={() => rerender((prev) => prev + 1)}
+        className='btn-danger'
+      >
+        rerender
+      </button>
     </div>
   );
 });
@@ -43,7 +63,7 @@ function App() {
 
       <MouseCapture />
 
-      {/* <H5 ss={`First-Component ${count}`} ref={childInputRef} /> */}
+      <H5 ss={`First-Component ${count}`} ref={childInputRef} />
       <button
         onClick={() => {
           if (childInputRef.current) {
