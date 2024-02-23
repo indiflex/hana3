@@ -20,7 +20,7 @@ type Props = {
 // }: PropsWithChildren<Props>) => {
 // const Hello: React.FC<Props> = ({ name, age, plusCount }) => {
 const Hello = ({ children }: PropsWithChildren<Props>) => {
-  const { count: age, plusCount } = useCounter();
+  const { count: age, plusCount, minusCount } = useCounter();
   const { session } = useSession();
   const name = session.loginUser?.name || 'Guest';
 
@@ -29,7 +29,12 @@ const Hello = ({ children }: PropsWithChildren<Props>) => {
       <h3>
         Hello, {name} ({age})
       </h3>
-      <button onClick={plusCount}>Plus Age</button>
+      <button onClick={plusCount} className='btn-primary'>
+        Plus Age
+      </button>
+      <button onClick={() => minusCount(10)} className='btn-danger'>
+        Minus Age
+      </button>
       <div>{children}</div>
     </div>
   );

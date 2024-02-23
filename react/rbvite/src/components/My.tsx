@@ -114,17 +114,31 @@ const My = forwardRef((_, ref: ForwardedRef<ItemHandler>) => {
           >
             <small>{id}.</small>
             {name} ({price.toLocaleString()}원)
-            <button onClick={() => removeItem(id)}>X</button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                removeItem(id);
+              }}
+              className='ml-3'
+            >
+              X
+            </button>
           </li>
         ))}
       </ul>
-      <div>총 {totalPrice.toLocaleString()}원</div>
+      <div className='font-bold text-red-500'>
+        총 {totalPrice.toLocaleString()}원
+      </div>
 
       <form onSubmit={saveCartItem} onReset={() => setCurrId(0)}>
         <input type='text' ref={itemNameRef} placeholder='상품명...' />
         <input type='number' ref={itemPriceRef} placeholder='금액...' />
-        <button type='reset'>취소</button>
-        <button type='submit'>{currId ? '수정' : '추가'}</button>
+        <button type='reset' className='mx-3'>
+          취소
+        </button>
+        <button type='submit' className='btn-primary'>
+          {currId ? '수정' : '추가'}
+        </button>
       </form>
     </div>
   );
