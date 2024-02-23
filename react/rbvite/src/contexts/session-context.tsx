@@ -115,7 +115,7 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
     })();
 
     return () => {
-      controller.abort();
+      // controller.abort();
     };
   }, []);
 

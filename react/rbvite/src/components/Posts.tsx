@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
 import { useSession } from '../contexts/session-context';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { Login } from './Login';
 import { useToggle } from '../hooks/toggle';
+import { useFetch } from '../hooks/fetch';
 
 type PostType = {
   userId: number;
   id: number;
   title: string;
   body: string;
-  // isOpen: boolean;
 };
 
 const BASE_URL = 'https://jsonplaceholder.typicode.com';
@@ -19,43 +18,15 @@ export default function Posts() {
     session: { loginUser },
   } = useSession();
 
-  const [posts, setPosts] = useState<PostType[]>([]);
-
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  // const [, toggleReloading] = useToggle();
-  // const toggleOpen = (postId: number) => {
-  //   const post = posts.find(({ id }) => id === postId)!;
-  //   post.isOpen = !post.isOpen;
-  //   // setPosts([...posts]); // 정석
-  //   toggleReloading(); // 변형
-  // };
-
-  useEffect(() => {
-    if (!loginUser) return;
-
-    const controller = new AbortController();
-    const { signal } = controller;
-    (async function () {
-      setLoading(true);
-      try {
-        const res = await fetch(`${BASE_URL}/posts?userId=${loginUser?.id}`, {
-          signal,
-        });
-        const data = (await res.json()) as PostType[];
-        // throw new Error('ttt');
-        setPosts(data);
-        setLoading(false);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        }
-      }
-    })();
-
-    return () => controller.abort();
-  }, [loginUser]);
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useFetch<PostType[]>({
+    url: `${BASE_URL}/posts?userId=${loginUser?.id}`,
+    dependencies: [loginUser],
+    defaultData: [],
+  });
 
   return (
     <div className='active'>
@@ -82,7 +53,7 @@ const Post = ({ post }: { post: PostType }) => {
   const [isOpen, toggleOpen] = useToggle();
 
   return (
-    <li key={post.id}>
+    <li>
       {post.title}
       <button onClick={() => toggleOpen()}>
         {isOpen ? <FaAngleUp /> : <FaAngleDown />}
