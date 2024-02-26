@@ -10,6 +10,7 @@ import { useCounter } from '../contexts/counter-context';
 import { useSession } from '../contexts/session-context';
 import { useTimeout } from '../hooks/timeout';
 import { useToggle } from '../hooks/toggle';
+import { useNavigate } from 'react-router-dom';
 
 export type LoginHandler = {
   noti: (msg: string) => void;
@@ -27,6 +28,8 @@ export const Login = forwardRef((_, ref: ForwardedRef<LoginHandler>) => {
   // const [name, setName] = useState('');
   const { count, plusCount, minusCount } = useCounter();
   const { login } = useSession();
+
+  const navigate = useNavigate();
 
   const handler = {
     noti: (msg: string) => alert(msg),
@@ -52,10 +55,8 @@ export const Login = forwardRef((_, ref: ForwardedRef<LoginHandler>) => {
     // }
 
     const id = Number(idRef.current?.value);
-    console.log('🚀  id:', id);
     const name = nameRef.current?.value;
-    console.log('🚀  name:', name);
-    login(id, name ?? '');
+    if (login(id, name ?? '')) navigate('/my');
   };
 
   useEffect(() => {

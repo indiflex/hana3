@@ -17,6 +17,7 @@ export default function Sample() {
 
   return (
     <>
+      <h1 className='text-lg font-bold'>Sample</h1>
       <div>
         <h5>
           NickName: {nickname}({age}세) - {address}

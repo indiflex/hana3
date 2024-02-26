@@ -28,6 +28,6 @@ module.exports = {
     'prettier/prettier': 'error',
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
   },
 };

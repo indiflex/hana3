@@ -6,27 +6,35 @@ import { SessionProvider } from './contexts/session-context';
 import Posts from './components/Posts';
 import { Nav } from './Nav';
 import { Route, Routes } from 'react-router-dom';
-import { Login } from './components/Login';
+import { Login, LoginHandler } from './components/Login';
 import { NotFound } from './NotFound';
 import { Home } from './components/Home';
+import Sample from './components/Sample';
+import DeferTrans from './components/DeferTrans';
 // import DeferTrans from './components/DeferTrans';
 // import Effect from './components/Effect';
 
 function App() {
   const myHandlerRef = useRef<ItemHandler>(null);
+  const loginHandlerRef = useRef<LoginHandler>(null);
 
   return (
     <>
-      <SessionProvider myHandlerRef={myHandlerRef}>
+      <SessionProvider
+        myHandlerRef={myHandlerRef}
+        loginHandlerRef={loginHandlerRef}
+      >
         <Nav />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/my' element={<My />} />
+          <Route path='/login' element={<Login ref={loginHandlerRef} />} />
+          <Route path='/my' element={<My ref={myHandlerRef} />} />
           <Route path='/posts' element={<Posts />} />
           {/* <Route path='/items' element={<Items />} />
         <Route path='/items/:id' element={<Item />} /> */}
           <Route path='/hello' element={<Hello />} />
+          <Route path='/sample' element={<Sample />} />
+          <Route path='/difertrans' element={<DeferTrans />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </SessionProvider>

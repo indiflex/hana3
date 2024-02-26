@@ -9,14 +9,14 @@ import {
   useEffect,
   useMemo,
   useReducer,
-  useState,
 } from 'react';
 import { ItemHandler } from '../components/My';
 import { useFetch } from '../hooks/fetch';
+import { LoginHandler } from '../components/Login';
 
 type SessionContextProp = {
   session: Session;
-  login: (id: number, name: string) => void;
+  login: (id: number, name: string) => boolean;
   logout: () => void;
   saveItem: ({ id, name, price }: Cart) => void;
   removeItem: (itemId: number) => void;
@@ -27,7 +27,7 @@ type SessionContextProp = {
 
 const SessionContext = createContext<SessionContextProp>({
   session: { loginUser: null, cart: [] },
-  login: () => {},
+  login: () => false,
   logout: () => {},
   saveItem: () => {},
   removeItem: () => {},
@@ -37,6 +37,7 @@ const SessionContext = createContext<SessionContextProp>({
 type ProviderProps = {
   children: ReactNode;
   myHandlerRef?: RefObject<ItemHandler>;
+  loginHandlerRef?: RefObject<LoginHandler>;
 };
 
 type Action =
@@ -84,7 +85,11 @@ const reducer = (session: Session, { type, payload }: Action) => {
   }
 };
 
-export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
+export const SessionProvider = ({
+  children,
+  myHandlerRef,
+  loginHandlerRef,
+}: ProviderProps) => {
   // const [session, setSession] = useState<Session>({
   //   loginUser: null,
   //   cart: [],
@@ -100,26 +105,34 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
   );
 
   const login = useCallback((id: number, name: string) => {
-    const loginNoti = myHandlerRef?.current?.loginHandler.noti || alert;
+    const loginNoti =
+      myHandlerRef?.current?.loginHandler.noti ||
+      loginHandlerRef?.current?.noti ||
+      alert;
     console.log('🚀  loginNoti:', loginNoti);
 
-    const focusId = myHandlerRef?.current?.loginHandler.focusId;
-    const focusName = myHandlerRef?.current?.loginHandler.focusName;
+    const focusId =
+      myHandlerRef?.current?.loginHandler.focusId ||
+      loginHandlerRef?.current?.focusId;
+    const focusName =
+      myHandlerRef?.current?.loginHandler.focusName ||
+      loginHandlerRef?.current?.focusName;
 
     if (!id || isNaN(id)) {
       loginNoti('User ID를 입력하세요!');
       if (focusId) focusId();
-      return;
+      return false;
     }
 
     if (!name) {
       loginNoti('User name을 입력하세요!');
       if (focusName) focusName();
-      return;
+      return false;
     }
 
     // setSession((session) => ({ ...session, loginUser: { id, name } }));
     dispatch({ type: 'login', payload: { id, name } });
+    return true;
   }, []);
 
   const logout = useCallback(() => {
@@ -168,6 +181,7 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
   const { data, error } = useFetch<Session>({
     url: '/data/sample.json',
   });
+  if (error) console.error('ERROR:', error);
 
   useEffect(() => {
     if (data) {
