@@ -69,6 +69,8 @@ const reducer = (session: Session, { type, payload }: Action) => {
 
       foundItem.name = name;
       foundItem.price = price;
+      console.log('🚀  foundItem:', foundItem);
+
       return { ...session };
     }
 
@@ -147,6 +149,8 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
     // });
     dispatch({ type: 'saveItem', payload: { id, name, price } });
   }, []);
+
+  // data 처리는 별도!
 
   const removeItem = useCallback((itemId: number) => {
     console.log('🚀  itemId:', itemId);
