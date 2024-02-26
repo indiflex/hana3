@@ -27,5 +27,7 @@ module.exports = {
     'react/no-array-index-key': 'error',
     'prettier/prettier': 'error',
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 };

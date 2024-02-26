@@ -4,9 +4,11 @@ import {
   ReactNode,
   RefObject,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
+  useReducer,
   useState,
 } from 'react';
 import { ItemHandler } from '../components/My';
@@ -36,8 +38,54 @@ type ProviderProps = {
   myHandlerRef?: RefObject<ItemHandler>;
 };
 
+type Action =
+  | {
+      type: 'login' | 'logout';
+      payload: LoginUser | null;
+    }
+  | { type: 'set'; payload: Session }
+  | { type: 'saveItem'; payload: Cart }
+  | { type: 'removeItem'; payload: number };
+
+const reducer = (session: Session, { type, payload }: Action) => {
+  switch (type) {
+    case 'set':
+      return { ...payload };
+
+    case 'login':
+    case 'logout':
+      return { ...session, loginUser: payload };
+
+    case 'saveItem': {
+      const { id, name, price } = payload;
+      const { cart } = session;
+      const foundItem = id !== 0 && cart.find((item) => item.id === id);
+      if (!foundItem) {
+        const maxId = Math.max(...session.cart.map((item) => item.id), 0) + 1;
+        cart.push({ id: maxId + 1, name, price });
+      } else {
+        foundItem.name = name;
+        foundItem.price = price;
+      }
+      return { ...session };
+    }
+
+    case 'removeItem':
+      return {
+        ...session,
+        cart: session.cart.filter((item) => item.id !== payload),
+      };
+    default:
+      return session;
+  }
+};
+
 export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
-  const [session, setSession] = useState<Session>({
+  // const [session, setSession] = useState<Session>({
+  //   loginUser: null,
+  //   cart: [],
+  // });
+  const [session, dispatch] = useReducer(reducer, {
     loginUser: null,
     cart: [],
   });
@@ -47,7 +95,7 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
     [session.cart]
   );
 
-  const login = (id: number, name: string) => {
+  const login = useCallback((id: number, name: string) => {
     const loginNoti = myHandlerRef?.current?.loginHandler.noti || alert;
     console.log('🚀  loginNoti:', loginNoti);
 
@@ -66,46 +114,50 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
       return;
     }
 
-    setSession({ ...session, loginUser: { id, name } });
-  };
+    // setSession((session) => ({ ...session, loginUser: { id, name } }));
+    dispatch({ type: 'login', payload: { id, name } });
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     // setSession({ cart: [...session.cart], loginUser: null });
     // session.loginUser = null;
-    setSession({ ...session, loginUser: null });
-  };
+    // setSession((session) => ({ ...session, loginUser: null }));
+    dispatch({ type: 'logout', payload: null });
+  }, []);
 
   // add(id=0) or modify(id!=0) item
-  const saveItem = ({ id, name, price }: Cart) => {
-    const { cart } = session;
-    const foundItem = id !== 0 && cart.find((item) => item.id === id);
-    if (!foundItem) {
-      id = Math.max(...session.cart.map((item) => item.id), 0) + 1;
-      cart.push({ id, name, price });
-    } else {
-      foundItem.name = name;
-      foundItem.price = price;
-    }
+  const saveItem = useCallback(({ id, name, price }: Cart) => {
+    // const { cart } = session;
+    // const foundItem = id !== 0 && cart.find((item) => item.id === id);
+    // if (!foundItem) {
+    //   id = Math.max(...session.cart.map((item) => item.id), 0) + 1;
+    //   cart.push({ id, name, price });
+    // } else {
+    //   foundItem.name = name;
+    //   foundItem.price = price;
+    // }
 
-    console.log('🚀  session:', session);
-    setSession({
-      ...session,
-      // cart,
-      cart: [...cart],
-    });
-  };
+    // console.log('🚀  session:', session);
+    // setSession({
+    //   ...session,
+    //   // cart,
+    //   cart: [...cart],
+    // });
+    dispatch({ type: 'saveItem', payload: { id, name, price } });
+  }, []);
 
-  const removeItem = (itemId: number) => {
+  const removeItem = useCallback((itemId: number) => {
     console.log('🚀  itemId:', itemId);
-    setSession({
-      ...session,
-      // cart: [...session.cart.filter((item) => item.id !== itemId)],
-      cart: session.cart.filter((item) => item.id !== itemId),
-    });
+    // setSession({
+    //   ...session,
+    //   // cart: [...session.cart.filter((item) => item.id !== itemId)],
+    //   cart: session.cart.filter((item) => item.id !== itemId),
+    // });
+    dispatch({ type: 'removeItem', payload: itemId });
 
     // Virtual-DOM의 rerender() 호출 안함(: session의 주소는 안변했으니까!)
     // session.cart = session.cart.filter((item) => item.id !== itemId);
-  };
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -116,7 +168,8 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
         signal,
       });
       const data = (await res.json()) as Session;
-      setSession(data);
+      // setSession(data);
+      dispatch({ type: 'set', payload: data });
     })();
 
     return () => {
