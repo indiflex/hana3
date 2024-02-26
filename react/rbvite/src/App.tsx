@@ -16,7 +16,7 @@ import { useCounter } from './contexts/counter-context';
 import { SessionProvider } from './contexts/session-context';
 import Posts from './components/Posts';
 import MouseCapture from './components/MouseCapture';
-import DeferTrans from './components/DeferTrans';
+// import DeferTrans from './components/DeferTrans';
 // import Effect from './components/Effect';
 
 const Child = ({ txt }: { txt: string }) => {
@@ -68,7 +68,7 @@ function App() {
         Vite + React
       </h1>
 
-      <DeferTrans />
+      {/* <DeferTrans /> */}
 
       <SessionProvider myHandlerRef={myHandlerRef}>
         <Posts />
