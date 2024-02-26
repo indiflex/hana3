@@ -12,6 +12,7 @@ import {
   useState,
 } from 'react';
 import { ItemHandler } from '../components/My';
+import { useFetch } from '../hooks/fetch';
 
 type SessionContextProp = {
   session: Session;
@@ -62,7 +63,8 @@ const reducer = (session: Session, { type, payload }: Action) => {
       const foundItem = id !== 0 && cart.find((item) => item.id === id);
       if (!foundItem) {
         const maxId = Math.max(...session.cart.map((item) => item.id), 0) + 1;
-        cart.push({ id: maxId + 1, name, price });
+        // cart.push({ id: maxId + 1, name, price }); // Bug!!
+        return { ...session, cart: [...cart, { id: maxId + 1, name, price }] };
       } else {
         foundItem.name = name;
         foundItem.price = price;
@@ -159,23 +161,16 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
     // session.cart = session.cart.filter((item) => item.id !== itemId);
   }, []);
 
+  const { data, error } = useFetch<Session>({
+    url: '/data/sample.json',
+  });
+
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-
-    (async function () {
-      const res = await fetch('/data/sample.json', {
-        signal,
-      });
-      const data = (await res.json()) as Session;
-      // setSession(data);
+    if (data) {
+      console.log('ddddddddddddd>>>', data);
       dispatch({ type: 'set', payload: data });
-    })();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
+    }
+  }, [data]);
 
   return (
     <SessionContext.Provider
