@@ -21,7 +21,6 @@ import DeferTrans from './components/DeferTrans';
 
 const Child = ({ txt }: { txt: string }) => {
   const id = useId();
-  console.log('🚀  id:', id);
   return <li id={id}>{txt}</li>;
 };
 

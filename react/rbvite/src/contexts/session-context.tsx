@@ -171,7 +171,7 @@ export const SessionProvider = ({ children, myHandlerRef }: ProviderProps) => {
 
   useEffect(() => {
     if (data) {
-      console.log('ddddddddddddd>>>', data);
+      // console.log('ddddddddddddd>>>', data);
       dispatch({ type: 'set', payload: data });
     }
   }, [data]);
