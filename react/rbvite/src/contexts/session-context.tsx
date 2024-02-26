@@ -65,10 +65,10 @@ const reducer = (session: Session, { type, payload }: Action) => {
         const maxId = Math.max(...session.cart.map((item) => item.id), 0) + 1;
         // cart.push({ id: maxId + 1, name, price }); // Bug!!
         return { ...session, cart: [...cart, { id: maxId + 1, name, price }] };
-      } else {
-        foundItem.name = name;
-        foundItem.price = price;
       }
+
+      foundItem.name = name;
+      foundItem.price = price;
       return { ...session };
     }
 
