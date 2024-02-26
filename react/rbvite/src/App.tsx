@@ -1,123 +1,49 @@
-import {
-  Ref,
-  createRef,
-  forwardRef,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useRef } from 'react';
 import './App.css';
 import Hello from './components/Hello';
 import My, { ItemHandler } from './components/My';
-import { flushSync } from 'react-dom';
-import { useCounter } from './contexts/counter-context';
 import { SessionProvider } from './contexts/session-context';
 import Posts from './components/Posts';
-import MouseCapture from './components/MouseCapture';
+import { Nav } from './Nav';
+import { Route, Routes } from 'react-router-dom';
+import { Login } from './components/Login';
+import { NotFound } from './NotFound';
+import { Home } from './components/Home';
 // import DeferTrans from './components/DeferTrans';
 // import Effect from './components/Effect';
 
-const Child = ({ txt }: { txt: string }) => {
-  const id = useId();
-  return <li id={id}>{txt}</li>;
-};
-
-// {ss: 'FirstComponent' }
-// function H5({ ss }: { ss: string }) {
-const H5 = forwardRef(({ ss }: { ss: string }, ref: Ref<HTMLInputElement>) => {
-  const [, rerender] = useState(0);
-  const array = useMemo(() => [1, 2, 3], []);
-  // const arr = array.map((a) => <Child txt={a.toString()} />);
-  useEffect(() => {
-    console.log('effect Array@@@');
-  }, [array]);
-
-  return (
-    <div style={{ border: '1px solid skyblue', marginBottom: '0.5rem' }}>
-      <h5>H55555566-{ss}</h5>
-      <input type='text' ref={ref} placeholder='child-input...' />
-      <ul>
-        {array.map((item) => (
-          <Child key={item} txt={item.toString()} />
-        ))}
-      </ul>
-      <button
-        onClick={() => rerender((prev) => prev + 1)}
-        className='btn-danger'
-      >
-        rerender
-      </button>
-    </div>
-  );
-});
-H5.displayName = 'H5';
-
 function App() {
-  const { count, plusCount } = useCounter();
-
-  const childInputRef = createRef<HTMLInputElement>();
-  const titleRef = useRef<HTMLHeadingElement>(null);
   const myHandlerRef = useRef<ItemHandler>(null);
 
   return (
     <>
+      <SessionProvider myHandlerRef={myHandlerRef}>
+        <Nav />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/my' element={<My />} />
+          <Route path='/posts' element={<Posts />} />
+          {/* <Route path='/items' element={<Items />} />
+        <Route path='/items/:id' element={<Item />} /> */}
+          <Route path='/hello' element={<Hello />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </SessionProvider>
       {/* <Effect /> */}
-      <h1 ref={titleRef} style={{ color: 'white', backgroundColor: 'red' }}>
+      {/* <h1 ref={titleRef} style={{ color: 'white', backgroundColor: 'red' }}>
         Vite + React
-      </h1>
+      </h1> */}
 
       {/* <DeferTrans /> */}
 
-      <SessionProvider myHandlerRef={myHandlerRef}>
-        <Posts />
-        <My ref={myHandlerRef} />
-        <Hello>Hello-children!!!!!!!!!!!</Hello>
-      </SessionProvider>
-
-      <MouseCapture />
-
-      <H5 ss={`First-Component ${count}`} ref={childInputRef} />
-      <button
-        onClick={() => {
-          if (childInputRef.current) {
-            childInputRef.current.value = 'XXXX';
-            childInputRef.current.select();
-          }
-        }}
-      >
-        call H5 input
-      </button>
-      <button onClick={() => myHandlerRef.current?.signOut()}>
+      {/* <button onClick={() => myHandlerRef.current?.signOut()}>
         App-Sign-Out
       </button>
       <button onClick={() => myHandlerRef.current?.notify('테스트메시지')}>
         Message
       </button>
-      <button onClick={() => myHandlerRef.current?.removeItem()}>Rm2</button>
-
-      <div className='card'>
-        <button
-          onClick={() => {
-            // setCount((count) => count + 1);
-            for (let i = 0; i < 10; i += 1) {
-              // console.log('i=', i);
-              // setCount(count + 1);
-              // setCount((prev) => prev + 1);
-              flushSync(plusCount);
-            }
-          }}
-        >
-          count is {count}
-        </button>
-      </div>
-
-      <button
-        onClick={() => titleRef.current?.scrollIntoView({ behavior: 'smooth' })}
-      >
-        Go to the Top
-      </button>
+      <button onClick={() => myHandlerRef.current?.removeItem()}>Rm2</button> */}
     </>
   );
 }
