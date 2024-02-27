@@ -2,7 +2,6 @@ import { useSession } from '../contexts/session-context';
 import { Login } from './Login';
 import { useFetch } from '../hooks/fetch';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
-import { useTimeout } from '../hooks/timeout';
 import { useEffect, useState } from 'react';
 import Post, { PostType } from './Post';
 
@@ -28,7 +27,8 @@ export default function Posts() {
   const location = useLocation();
   console.log('🚀  location:', location);
   // const state = location.state as { x: number };
-  const [searchParams, setSearchParams] = useSearchParams({ q: '' });
+  // const [searchParams, setSearchParams] = useSearchParams({ q: '' });
+  const [searchParams] = useSearchParams({ q: '' });
   const q = searchParams.get('q');
   const r = searchParams.get('r');
   console.log('🚀  q, r:', q, r);

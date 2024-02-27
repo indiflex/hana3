@@ -11,7 +11,6 @@ import { NotFound } from './NotFound';
 import { Home } from './components/Home';
 import Sample from './components/Sample';
 import DeferTrans from './components/DeferTrans';
-import Post from './components/Post';
 import { PostLayout } from './components/PostLayout';
 import { PostDetail } from './components/PostDetail';
 // import DeferTrans from './components/DeferTrans';
