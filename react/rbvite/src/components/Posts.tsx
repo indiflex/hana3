@@ -32,7 +32,7 @@ export default function Posts() {
   const q = searchParams.get('q');
   const r = searchParams.get('r');
   console.log('🚀  q, r:', q, r);
-  useTimeout(() => setSearchParams({ q: 'qqq' }), 1000);
+  // useTimeout(() => setSearchParams({ q: 'qqq' }), 1000);
   const [searchStr, setSearchStr] = useState('');
   useEffect(() => {
     setSearchStr(q || '');
