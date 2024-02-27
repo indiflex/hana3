@@ -30,6 +30,7 @@ function App() {
           <Route path='/login' element={<Login ref={loginHandlerRef} />} />
           <Route path='/my' element={<My ref={myHandlerRef} />} />
           <Route path='/posts' element={<Posts />} />
+          <Route path='/posts/:id' element={<Posts />} />
           {/* <Route path='/items' element={<Items />} />
         <Route path='/items/:id' element={<Item />} /> */}
           <Route path='/hello' element={<Hello />} />
