@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 export const Nav = () => (
   <nav>
@@ -19,12 +18,23 @@ export const Nav = () => (
       <li>
         <NavLink
           to='/posts'
-          style={({ isActive, isPending }) => {
-            console.log({ isActive, isPending });
+          style={({ isActive }) => {
+            // console.log({ isActive, isPending });
             return { color: isActive ? 'red' : 'inherit' };
           }}
         >
           Posts
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to='/posts/5'
+          style={({ isActive }) => {
+            // console.log({ isActive, isPending });
+            return { color: isActive ? 'red' : 'inherit' };
+          }}
+        >
+          Posts5
         </NavLink>
       </li>
       <li>
