@@ -77,6 +77,7 @@ const My = forwardRef((_, ref: ForwardedRef<ItemHandler>) => {
     itemNameRef.current.value = '';
     if (itemPriceRef.current) itemPriceRef.current.value = '0';
   };
+
   return (
     <div
       style={{

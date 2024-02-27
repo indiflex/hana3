@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { PostType } from './Post';
 import { useFetch } from '../hooks/fetch';
 import { useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ export const PostDetail = () => {
     url: `https://jsonplaceholder.typicode.com/posts/${id}`,
     enable: !post,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (postData) {
@@ -31,6 +32,9 @@ export const PostDetail = () => {
         <strong>{post?.title}</strong>
       </div>
       <div>{post?.body}</div>
+      <div>
+        <button onClick={() => navigate('/posts')}>목록</button>
+      </div>
     </>
   );
 };

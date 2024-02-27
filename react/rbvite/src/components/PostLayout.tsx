@@ -20,6 +20,7 @@ export const PostLayout = () => {
     dependencies: [loginUser],
     defaultData: [],
   });
+  console.log('🚀  posts:', posts);
 
   const [currPost, setCurrPost] = useState<PostType | null>(null);
   const navigate = useNavigate();
