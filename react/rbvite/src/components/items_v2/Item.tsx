@@ -1,6 +1,6 @@
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useSession } from '../../contexts/session-context';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { Button } from '../ui/Button';
 
@@ -9,7 +9,6 @@ export const Item = () => {
     session: { cart },
   } = useSession();
   const [item, setItem] = useState<Cart>({ id: 0, name: '', price: 0 });
-  const [isEditing, toggleEditing] = useReducer((pre) => !pre, false);
 
   const { item: contextItem } = useOutletContext<{ item: Cart }>();
   const navigate = useNavigate();
@@ -40,11 +39,14 @@ export const Item = () => {
           <div>
             {item.name} ({item.price.toLocaleString()}원)
             <Button
-              onClick={() => toggleEditing()}
-              variant='primary'
-              className=''
+              onClick={() =>
+                navigate(`/v2/items/${item.id}/edit?itemId=${item.id}`)
+              }
+              variant='default'
+              className='ml-5'
+              title='수정하기'
             >
-              <FaEdit /> Edit
+              <FaEdit />
             </Button>
           </div>
         </>

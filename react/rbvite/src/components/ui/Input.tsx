@@ -9,7 +9,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
       <input
         type={type}
         ref={ref}
-        className={clsx('border border-sky-500 rounded', className)}
+        className={clsx('border border-sky-500 rounded px-1', className)}
         {...props}
       />
     );
