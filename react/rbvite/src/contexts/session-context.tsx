@@ -11,9 +11,7 @@ import {
   useReducer,
 } from 'react';
 import { ItemHandler } from '../components/My';
-import { useFetch } from '../hooks/fetch';
 import { LoginHandler } from '../components/Login';
-import { DefaultContext } from 'react-icons';
 
 type SessionContextProp = {
   session: Session;
@@ -25,15 +23,6 @@ type SessionContextProp = {
 };
 
 // @move to public/data/sample.json!!
-
-const SessionContext = createContext<SessionContextProp>({
-  session: { loginUser: null, cart: [] },
-  login: () => false,
-  logout: () => {},
-  saveItem: () => {},
-  removeItem: () => {},
-  totalPrice: 0,
-});
 
 type ProviderProps = {
   children: ReactNode;
@@ -49,6 +38,36 @@ type Action =
   | { type: 'set'; payload: Session }
   | { type: 'saveItem'; payload: Cart }
   | { type: 'removeItem'; payload: number };
+
+const SKEY = 'session';
+const DefaultSession: Session = {
+  loginUser: null,
+  cart: [],
+};
+
+function getStorage() {
+  const storedData = localStorage.getItem(SKEY);
+  if (storedData) {
+    return JSON.parse(storedData) as Session;
+  }
+
+  setStorage(DefaultSession);
+
+  return DefaultSession;
+}
+
+function setStorage(session: Session) {
+  localStorage.setItem(SKEY, JSON.stringify(session));
+}
+
+const SessionContext = createContext<SessionContextProp>({
+  session: { loginUser: null, cart: [] },
+  login: () => false,
+  logout: () => {},
+  saveItem: () => {},
+  removeItem: () => {},
+  totalPrice: 0,
+});
 
 const reducer = (session: Session, { type, payload }: Action) => {
   let newer;
@@ -98,27 +117,6 @@ const reducer = (session: Session, { type, payload }: Action) => {
   return newer;
 };
 
-const SKEY = 'session';
-const DefaultSession: Session = {
-  loginUser: null,
-  cart: [],
-};
-
-function getStorage() {
-  const storedData = localStorage.getItem(SKEY);
-  if (storedData) {
-    return JSON.parse(storedData) as Session;
-  }
-
-  setStorage(DefaultSession);
-
-  return DefaultSession;
-}
-
-function setStorage(session: Session) {
-  localStorage.setItem(SKEY, JSON.stringify(session));
-}
-
 export const SessionProvider = ({
   children,
   myHandlerRef,
@@ -128,10 +126,7 @@ export const SessionProvider = ({
   //   loginUser: null,
   //   cart: [],
   // });
-  const [session, dispatch] = useReducer(
-    reducer,
-    getStorage() || DefaultSession
-  );
+  const [session, dispatch] = useReducer(reducer, DefaultSession);
 
   const totalPrice = useMemo(
     () => session.cart.reduce((sum, item) => sum + item.price, 0),
@@ -223,6 +218,10 @@ export const SessionProvider = ({
   //     dispatch({ type: 'set', payload: data });
   //   }
   // }, [data]);
+
+  useEffect(() => {
+    dispatch({ type: 'set', payload: getStorage() });
+  }, []);
 
   return (
     <SessionContext.Provider
