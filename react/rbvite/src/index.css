@@ -4,7 +4,7 @@
 
 @layer components {
   .btn-default {
-    @apply py-1 px-3 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75;
+    @apply py-1 px-3 bg-gray-400 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75;
   }
 
   .btn-primary {
