@@ -48,8 +48,10 @@ export const ItemEdit = () => {
     goToDetailPage();
   };
 
+  // /v2/items/3/edit?itemId=3
   const goToDetailPage = () => {
-    navigate(`/v2/items/${itemId}`);
+    // navigate(`/v2/items/${itemId}`);
+    navigate(`../${itemId}`);
   };
 
   useEffect(() => {
