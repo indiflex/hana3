@@ -19,6 +19,7 @@ export const Button = ({
         'justify-center',
         'gap-1',
         'items-center',
+        'm-2',
         className
       )}
       {...props}

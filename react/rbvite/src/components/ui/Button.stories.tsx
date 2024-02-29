@@ -21,4 +21,20 @@ export const Danger: StoryObj<typeof Button> = {
   render: (args) => <Button {...args}>Remove</Button>,
 };
 
+export const Others: StoryObj<typeof Button> = {
+  render: () => (
+    <div className='border'>
+      <Button variant='default' className='p-7' style={{ color: 'yellow' }}>
+        Primary
+      </Button>
+      <Button variant='primary' className='p-7'>
+        Primary
+      </Button>
+      <Button onClick={() => alert('danger')} variant='danger' className='p-7'>
+        Danger
+      </Button>
+    </div>
+  ),
+};
+
 export default meta;
