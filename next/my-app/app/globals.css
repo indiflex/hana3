@@ -32,3 +32,7 @@ body {
     text-wrap: balance;
   }
 }
+
+a {
+  color: blue;
+}

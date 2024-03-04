@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 // app/paralell/layout.tsx
 export default function ParalellLayout({
   children,
@@ -16,6 +18,15 @@ export default function ParalellLayout({
         <div className='border p-3'>{login}</div>
       </div>
       {children}
+      <div className='flex justify-around'>
+        <Link href='/paralell/bbb'>Profile/BBB</Link>
+        <Link href='/paralell/aaa'>Login/AAA</Link>
+      </div>
+      <div className='flex justify-around'>
+        <Link href='/paralell/ccc'>Profile/CCC</Link>
+        <Link href='/paralell/ddd'>Login/DDD</Link>
+      </div>
+      <Link href='/paralell/xxx'>XXX</Link>
     </>
   );
 }
