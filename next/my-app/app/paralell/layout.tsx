@@ -14,7 +14,7 @@ export default function ParalellLayout({
   login: React.ReactNode;
 }) {
   // const isLogin = false;
-  const [isLogin, toggleLogin] = useReducer((pre) => !pre, false);
+  const [isLogin, toggleLogin] = useReducer((pre) => !pre, true);
   return (
     <>
       <h1>
