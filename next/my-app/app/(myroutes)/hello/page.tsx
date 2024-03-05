@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+
+// import { redirect } from 'next/navigation';
 
 export default function Hello() {
-  redirect('/hello/morning');
+  // redirect('/hello/morning');
 
   return (
     <>

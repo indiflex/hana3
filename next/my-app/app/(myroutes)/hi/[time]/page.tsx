@@ -10,7 +10,9 @@ export async function generateStaticParams() {
   }));
 }
 
+const toUp = (s: string) => [s[0].toUpperCase(), s.slice(1)].join('');
+
 export default function HiTime({ params }: Props) {
   const { time } = params;
-  return <>Good {time}!</>;
+  return <>Good {toUp(time)}!</>;
 }
