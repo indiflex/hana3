@@ -5,15 +5,21 @@ import {
   useEffect,
   useReducer,
 } from 'react';
-import { DefaultSession, Session, setStorage } from '../libs/storage-utils';
+import {
+  DefaultSession,
+  getStorage,
+  Session,
+  setStorage,
+} from '../libs/storage-utils';
 import { useFetch } from './fetch';
+import { useNavigate } from 'react-router-dom';
 
 const SessionContext = createContext<{
-  login: (userId: number) => void;
+  login: (userId: number) => boolean;
   logout: () => void;
   session: Session;
 }>({
-  login: () => {},
+  login: () => false,
   logout: () => {},
   session: DefaultSession,
 });
@@ -26,12 +32,19 @@ const reducer = (session: Session, payload: Session | null) => {
 
 export const SessionProvider = ({ children }: PropsWithChildren) => {
   const [session, dispatch] = useReducer(reducer, DefaultSession);
+  const navigate = useNavigate();
 
   const login = (userId: number) => {
+    if (!userId || userId < 1 || userId > 10) return false;
+
     dispatch({ id: userId, username: '' });
+    return true;
   };
 
-  const logout = () => dispatch(null);
+  const logout = () => {
+    dispatch(null);
+    navigate('/');
+  };
 
   const { data } = useFetch<Session>({
     url: `users/${session.id}`,
@@ -41,8 +54,15 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
   });
 
   useEffect(() => {
-    if (data) dispatch(data);
+    if (data) {
+      const { id, username } = data;
+      dispatch({ id, username });
+    }
   }, [data]);
+
+  useEffect(() => {
+    dispatch(getStorage());
+  }, []);
 
   return (
     <SessionContext.Provider value={{ login, logout, session }}>

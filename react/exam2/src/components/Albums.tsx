@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useFetch } from '../hooks/fetch';
 import { useSession } from '../hooks/session-context';
 
@@ -11,6 +11,8 @@ type AlbumType = {
 export default function Albums() {
   const { session } = useSession();
   const navigate = useNavigate();
+  const [query, setQuery] = useSearchParams();
+  const selectedAlbumId = query.get('albumId');
 
   const {
     data: albums,
@@ -18,11 +20,13 @@ export default function Albums() {
     error,
   } = useFetch<AlbumType[]>({
     url: `/albums?userId=${session.id}`,
+    dependencies: [session.id],
     enable: !!session.id,
   });
 
   if (!session.id) {
-    return navigate('/');
+    navigate('/');
+    return;
   }
 
   if (error) return <h1>{error}</h1>;
@@ -30,14 +34,21 @@ export default function Albums() {
 
   return (
     <>
-      <h1>
+      <h3>
         앨범 목록
-        <button>앨범 상세보기</button>
-      </h1>
+        <a href={`/albums/${selectedAlbumId}`}>앨범 상세보기</a>
+      </h3>
 
-      <ul>
-        {albums?.map(album => (
-          <li key={album.id}>{album.title}</li>
+      <ul style={{ listStyle: 'none' }}>
+        {albums?.map(({ id: albumId, title }) => (
+          <li
+            key={albumId}
+            className={`${albumId === Number(selectedAlbumId) && 'active'}`}
+          >
+            <button onClick={() => setQuery({ albumId: String(albumId) })}>
+              <small>{albumId}.</small> {title}
+            </button>
+          </li>
         ))}
       </ul>
     </>

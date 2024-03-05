@@ -30,7 +30,6 @@ export const useFetch = <T>({
       setLoading(true);
       setError('');
       try {
-        console.log('ffffffffffffffffffffff');
         const res = await fetch(`${BASE_URL}/${url}`, options);
         if (!res.ok) {
           setError(res.status.toString());
