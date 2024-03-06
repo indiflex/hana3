@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 // import { redirect } from 'next/navigation';
@@ -11,6 +12,9 @@ export default function Hello() {
       <Link href='/' scroll={false} type='button'>
         Go Home
       </Link>
+      <Button variant='outline' size='lg'>
+        BTN
+      </Button>
     </>
   );
 }
