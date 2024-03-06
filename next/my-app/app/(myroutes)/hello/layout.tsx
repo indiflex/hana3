@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ReactNode } from 'react';
 
 type Time = 'morning' | 'afternoon' | 'evening';
@@ -16,11 +16,23 @@ export default function HelloLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const time = pathname.replace(/\/hello\/(.*)$/, '$1');
 
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  console.log('🚀  id:', id);
+
+  const setSearchParam = (query: string, value: string) => {
+    const sparam = new URLSearchParams(searchParams.toString());
+    sparam.set(query, value);
+    router.push('/hello?' + sparam.toString());
+  };
+
   const goHelloByTime = () => {
     console.log('pathname=', pathname, time);
     if (time in TimeTo) {
       const nextTime = TimeTo[time as Time];
       router.push(`/hello/${nextTime}`);
+    } else {
+      setSearchParam('id', id + 'x');
     }
   };
 

@@ -1,33 +1,28 @@
-// list
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getPhotos } from '@/lib/album-utils';
 
-type Photo = {
-  albumId: number;
-  id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
+type SearchParams = {
+  searchParams: {
+    albumId: string;
+  };
 };
-
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
-async function getPhotos(albumId: number = 1): Promise<Photo[]> {
-  const res = await fetch(`${BASE_URL}/photos?albumId=${albumId}`);
-  return res.json();
-}
-
-const Photos = async () => {
-  const photos = await getPhotos();
+const Photos = async ({ searchParams }: SearchParams) => {
+  const { albumId } = searchParams;
+  console.log('🚀  albumId:', albumId);
+  const photos = await getPhotos(Number(albumId) || 1);
 
   const setAlbumId = async (formData: FormData) => {
     'use server';
     const albumId = formData.get('albumId');
     console.log('🚀  albumId:', albumId);
+    redirect(`/photos?albumId=${albumId}`);
   };
 
   return (
     <>
-      <h1 className='text-lg'>Photos</h1>
+      <h1 className='text-lg'>#{albumId}`s Photos</h1>
       <form action={setAlbumId}>
         <input type='number' name='albumId' placeholder='albumId...' />
         <button type='submit'>Set Album</button>
