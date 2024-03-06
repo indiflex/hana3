@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 type Props = {
   params: { time: string };
 };
@@ -12,7 +14,19 @@ export async function generateStaticParams() {
 
 const toUp = (s: string) => [s[0].toUpperCase(), s.slice(1)].join('');
 
+function ServerComp({ params }: Props) {
+  return <>{JSON.stringify(params)}</>;
+}
+
 export default function HiTime({ params }: Props) {
   const { time } = params;
-  return <>Good {toUp(time)}!</>;
+  if (!TIMES.includes(time)) return notFound();
+  // redirect('/hi');
+
+  return (
+    <>
+      Good {toUp(time)}!
+      <ServerComp params={params} />
+    </>
+  );
 }

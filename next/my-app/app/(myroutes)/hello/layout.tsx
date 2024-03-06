@@ -15,8 +15,9 @@ export default function HelloLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const time = pathname.replace(/\/hello\/(.*)$/, '$1');
+
   const goHelloByTime = () => {
-    console.log('pathname=', pathname);
+    console.log('pathname=', pathname, time);
     if (time in TimeTo) {
       const nextTime = TimeTo[time as Time];
       router.push(`/hello/${nextTime}`);

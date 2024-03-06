@@ -1,9 +1,16 @@
 'use client';
 
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useEffect, MouseEventHandler } from 'react';
 
-export default function Modal({ children }: { children: React.ReactNode }) {
+export default function Modal({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className: string;
+}) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
@@ -42,7 +49,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
         ref={wrapper}
         className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:w-10/12 md:w-8/12 lg:w-2/5 p-6'
       >
-        {children}
+        <div className={clsx(className)}>{children}</div>
       </div>
     </div>
   );
